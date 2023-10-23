@@ -28,8 +28,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class LoginActivity extends AppCompatActivity {
-//    String api = "https://roomradar.onrender.com/api/v1/auth/login";
-    String api = "https://03db-2405-4803-f8a3-1e90-153e-54ef-4d3b-5bc8.ngrok-free.app/api/v1/auth/login";
+    String api = "https://roomradar.onrender.com/api/v1/auth/login";
+//String api = "https://cf3d-118-70-211-228.ngrok-free.app/api/v1/auth/login";
     private RequestQueue requestQueue;
 
     @Override
@@ -69,7 +69,8 @@ public class LoginActivity extends AppCompatActivity {
                         //lấy dữ liệu từ api gửi về
                         User user = new User();
                         try {
-                            user.setVip(response.getBoolean("isVip"));
+                            Log.d("GO to try catch","Try catch error");
+
                             user.setStatus(response.getBoolean("status"));
                             user.setId(response.getString("_id"));
                             user.setFirstname(response.getString("firstname"));
@@ -78,15 +79,15 @@ public class LoginActivity extends AppCompatActivity {
                             user.setAdmin(response.getBoolean("admin"));
                             user.setCreatedAt(response.getString("createdAt"));
                             user.setUpdateAt(response.getString("updatedAt"));
+                            Log.d("API",user.toString());
 
                             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                             intent.putExtra("user", user);
                             startActivity(intent);
 
                         } catch (JSONException e) {
-
+                            Log.d("Erro try catch","Error");
                         }
-                        Log.d("API",user.toString());
                     }
                 },
                 new Response.ErrorListener() {
