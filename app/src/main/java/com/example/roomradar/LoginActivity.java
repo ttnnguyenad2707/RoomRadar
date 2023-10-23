@@ -2,12 +2,15 @@ package com.example.roomradar;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -28,8 +31,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class LoginActivity extends AppCompatActivity {
-//    String api = "https://roomradar.onrender.com/api/v1/auth/login";
-    String api = "https://03db-2405-4803-f8a3-1e90-153e-54ef-4d3b-5bc8.ngrok-free.app/api/v1/auth/login";
+    String api = "https://roomradar.onrender.com/api/v1/auth/login";
+//    String api = "https://03db-2405-4803-f8a3-1e90-153e-54ef-4d3b-5bc8.ngrok-free.app/api/v1/auth/login";
     private RequestQueue requestQueue;
 
     @Override
@@ -68,24 +71,25 @@ public class LoginActivity extends AppCompatActivity {
                         Log.d("API Response", response.toString());
                         //lấy dữ liệu từ api gửi về
                         User user = new User();
-                        try {
-                            user.setVip(response.getBoolean("isVip"));
-                            user.setStatus(response.getBoolean("status"));
-                            user.setId(response.getString("_id"));
-                            user.setFirstname(response.getString("firstname"));
-                            user.setLastname(response.getString("lastname"));
-                            user.setEmailUser(response.getString("email"));
-                            user.setAdmin(response.getBoolean("admin"));
-                            user.setCreatedAt(response.getString("createdAt"));
-                            user.setUpdateAt(response.getString("updatedAt"));
-
+//                        try {
+                            SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            editor.putString("username",response.toString()); // Thay "tên người dùng" bằng tên người dùng thực tế
+                            editor.apply();
+//                            user.setStatus(response.getBoolean("status"));
+//                            user.setId(response.getString("_id"));
+//                            user.setFirstname(response.getString("firstname"));
+//                            user.setLastname(response.getString("lastname"));
+//                            user.setEmailUser(response.getString("email"));
+//                            user.setAdmin(response.getBoolean("admin"));
+//                            user.setCreatedAt(response.getString("createdAt"));
+//                            user.setUpdateAt(response.getString("updatedAt"));
                             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                            intent.putExtra("user", user);
+//                            intent.putExtra("user", user);
                             startActivity(intent);
-
-                        } catch (JSONException e) {
-
-                        }
+//                        } catch (JSONException e) {
+//                            Log.d("api","Lỗi");
+//                        }
                         Log.d("API",user.toString());
                     }
                 },
@@ -98,5 +102,12 @@ public class LoginActivity extends AppCompatActivity {
                 });
 
         requestQueue.add(jsonObjectRequest);
+    }
+
+    public void onTextViewClick(View view) {
+        // Thực hiện các thao tác khi TextView được nhấp
+        // Ví dụ: Chuyển hướng sang màn hình khác
+        Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+        startActivity(intent);
     }
 }
