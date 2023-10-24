@@ -3,7 +3,7 @@ package com.example.roomradar;
 import java.io.Serializable;
 
 public class User implements Serializable {
-    private Boolean isVip;
+
     private Boolean status;
     private String id;
     private String firstname;
@@ -17,8 +17,8 @@ public class User implements Serializable {
 
     }
 
-    public User(Boolean isVip, Boolean status, String id, String firstname, String lastname, String emailUser, Boolean admin, String createdAt, String updateAt) {
-        this.isVip = isVip;
+    public User( Boolean status, String id, String firstname, String lastname, String emailUser, Boolean admin, String createdAt, String updateAt) {
+
         this.status = status;
         this.id = id;
         this.firstname = firstname;
@@ -29,13 +29,7 @@ public class User implements Serializable {
         this.updateAt = updateAt;
     }
 
-    public Boolean getVip() {
-        return isVip;
-    }
 
-    public void setVip(Boolean vip) {
-        isVip = vip;
-    }
 
     public Boolean getStatus() {
         return status;
@@ -104,7 +98,6 @@ public class User implements Serializable {
     @Override
     public String toString() {
         return "User{" +
-                "isVip=" + isVip +
                 ", status=" + status +
                 ", id='" + id + '\'' +
                 ", firstname='" + firstname + '\'' +

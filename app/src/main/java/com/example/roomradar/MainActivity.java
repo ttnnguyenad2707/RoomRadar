@@ -2,7 +2,9 @@ package com.example.roomradar;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -11,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.TextView;
+import com.google.gson.Gson;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -29,6 +32,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+    private Gson gson = new Gson();
     String api = "https://roomradar.onrender.com/api/v1/post/getAll/1";
     private RequestQueue requestQueue;
 
@@ -47,31 +51,42 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        gridView = findViewById(R.id.newPostView);
+        SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        String jsonUser = sharedPreferences.getString("username", ""); // Trả về "" nếu không tìm thấy giá trị
 
+        if (!jsonUser.isEmpty()) {
+            // Người dùng đã đăng nhập trước đó, thực hiện các hành động tương ứng
+            User savedObj = gson.fromJson(jsonUser, User.class);
+            gridView = findViewById(R.id.newPostView);
+            requestQueue = Volley.newRequestQueue(MainActivity.this);
+            sendApiRequest(new ApiResponseListener<List<Post>>() {
+                @Override
+                public void onSuccess(List<Post> response) {
+                    // Xử lý danh sách posts tại đây
+                    postAdapter = new PostAdapter(MainActivity.this, R.layout.item_post_layout, response);
+                    gridView.setAdapter(postAdapter);
+                    gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            Intent intent = new Intent(MainActivity.this, PostDetails.class);
+                            intent.putExtra("post", response.get(position));
+                            startActivity(intent);
+                        }
+                    });
+                }
 
-        requestQueue = Volley.newRequestQueue(MainActivity.this);
-        sendApiRequest(new ApiResponseListener<List<Post>>() {
-            @Override
-            public void onSuccess(List<Post> response) {
-                // Xử lý danh sách posts tại đây
-                postAdapter = new PostAdapter(MainActivity.this, R.layout.item_post_layout, response);
-                gridView.setAdapter(postAdapter);
-                gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        Intent intent = new Intent(MainActivity.this, PostDetails.class);
-                        intent.putExtra("post", response.get(position));
-                        startActivity(intent);
-                    }
-                });
-            }
-
-            @Override
-            public void onError(Exception error) {
-                // Xử lý lỗi tại đây
-            }
-        });
+                @Override
+                public void onError(Exception error) {
+                    // Xử lý lỗi tại đây
+                }
+            });
+        } else {
+            // Người dùng chưa đăng nhập, hiển thị màn hình đăng nhập hoặc các tùy chọn khác
+            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+            startActivity(intent);
+        }
+//        Intent intent = getIntent();
+//        User user = (User) intent.getSerializableExtra("user");
 
 
     }
