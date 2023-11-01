@@ -1,5 +1,6 @@
 package com.example.roomradar;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
@@ -8,11 +9,12 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Adapter;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.GridView;
-import android.widget.TextView;
+
+import com.example.roomradar.adapter.PostAdapter;
+import com.example.roomradar.model.Post;
+import com.example.roomradar.model.User;
 import com.google.gson.Gson;
 
 import com.android.volley.Request;
@@ -20,14 +22,12 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,6 +43,20 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            // Thực hiện các tùy chỉnh cho thanh tiêu đề
+            actionBar.setTitle("Ứng dụng của tôi");
+            actionBar.setSubtitle("Mô tả ứng dụng");
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+        findViewById(R.id.img_search).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this,AddPostActivity.class);
+                startActivity(intent);
+            }
+        });
         findViewById(R.id.btn_profile).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

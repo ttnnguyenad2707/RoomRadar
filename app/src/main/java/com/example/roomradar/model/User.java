@@ -1,4 +1,4 @@
-package com.example.roomradar;
+package com.example.roomradar.model;
 
 import java.io.Serializable;
 

@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.roomradar.model.Post;
 import com.squareup.picasso.Picasso;
 
 public class PostDetails extends AppCompatActivity {

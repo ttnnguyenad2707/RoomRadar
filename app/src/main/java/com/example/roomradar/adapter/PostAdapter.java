@@ -1,7 +1,6 @@
-package com.example.roomradar;
+package com.example.roomradar.adapter;
 
 import android.app.Activity;
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,9 +11,10 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.example.roomradar.R;
+import com.example.roomradar.model.Post;
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class PostAdapter extends ArrayAdapter<Post> {

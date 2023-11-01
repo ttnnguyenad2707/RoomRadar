@@ -1,9 +1,11 @@
-package com.example.roomradar;
+package com.example.roomradar.model;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Arrays;
 
-public class Post implements Serializable {
+public class AddPostData  {
     private String title;
     private String description;
     private String address;
@@ -11,14 +13,16 @@ public class Post implements Serializable {
     private int maxPeople;
     private String price;
     private String deposit;
-    private String security[];
-    private String utils[];
-    private String interior[];
+    private ArrayList<String> security;
+    private ArrayList<String> utils;
+    private ArrayList<String> interior;
     private String image[];
     private String owner;
-    private String createdAt;
 
-    public Post(String title, String description, String address, int area, int maxPeople, String price, String deposit, String[] security, String[] utils, String[] interior, String[] image, String owner, String createdAt) {
+    public AddPostData() {
+    }
+
+    public AddPostData(String title, String description, String address, int area, int maxPeople, String price, String deposit, ArrayList<String> security, ArrayList<String> utils, ArrayList<String> interior, String[] image, String owner) {
         this.title = title;
         this.description = description;
         this.address = address;
@@ -31,11 +35,6 @@ public class Post implements Serializable {
         this.interior = interior;
         this.image = image;
         this.owner = owner;
-        this.createdAt = createdAt;
-    }
-
-    public Post() {
-
     }
 
     public String getTitle() {
@@ -94,27 +93,27 @@ public class Post implements Serializable {
         this.deposit = deposit;
     }
 
-    public String[] getSecurity() {
+    public ArrayList<String> getSecurity() {
         return security;
     }
 
-    public void setSecurity(String[] security) {
+    public void setSecurity(ArrayList<String> security) {
         this.security = security;
     }
 
-    public String[] getUtils() {
+    public ArrayList<String> getUtils() {
         return utils;
     }
 
-    public void setUtils(String[] utils) {
+    public void setUtils(ArrayList<String> utils) {
         this.utils = utils;
     }
 
-    public String[] getInterior() {
+    public ArrayList<String> getInterior() {
         return interior;
     }
 
-    public void setInterior(String[] interior) {
+    public void setInterior(ArrayList<String> interior) {
         this.interior = interior;
     }
 
@@ -134,17 +133,9 @@ public class Post implements Serializable {
         this.owner = owner;
     }
 
-    public String getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(String createdAt) {
-        this.createdAt = createdAt;
-    }
-
     @Override
     public String toString() {
-        return "Post{" +
+        return "AddPostData{" +
                 "title='" + title + '\'' +
                 ", description='" + description + '\'' +
                 ", address='" + address + '\'' +
@@ -152,12 +143,11 @@ public class Post implements Serializable {
                 ", maxPeople=" + maxPeople +
                 ", price='" + price + '\'' +
                 ", deposit='" + deposit + '\'' +
-                ", security=" + Arrays.toString(security) +
-                ", utils=" + Arrays.toString(utils) +
-                ", interior=" + Arrays.toString(interior) +
+                ", security=" + security +
+                ", utils=" + utils +
+                ", interior=" + interior +
                 ", image=" + Arrays.toString(image) +
                 ", owner='" + owner + '\'' +
-                ", createdAt='" + createdAt + '\'' +
                 '}';
     }
 }

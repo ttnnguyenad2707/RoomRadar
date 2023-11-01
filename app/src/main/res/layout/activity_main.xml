@@ -31,7 +31,7 @@
             android:textStyle="bold" />
 
         <ImageView
-            android:id="@+id/imageView2"
+            android:id="@+id/img_search"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="0.3"
