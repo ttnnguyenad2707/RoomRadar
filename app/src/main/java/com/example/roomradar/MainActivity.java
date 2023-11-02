@@ -28,6 +28,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -82,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
                     gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                            Intent intent = new Intent(MainActivity.this, PostDetails.class);
+                            Intent intent = new Intent(MainActivity.this, DetailsPostActivity.class);
                             intent.putExtra("post", response.get(position));
                             startActivity(intent);
                         }
@@ -105,58 +107,98 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void sendApiRequest(final ApiResponseListener<List<Post>> listener) {
-        Log.d("call", "API");
-        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, api, null,
-                new Response.Listener<JSONArray>() {
-                    @Override
-                    public void onResponse(JSONArray response) {
-                        try {
-                            List<Post> posts = new ArrayList<>();
+        private void sendApiRequest(final ApiResponseListener<List<Post>> listener) {
+            Log.d("call", "API");
+            JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, api, null,
+                    new Response.Listener<JSONArray>() {
+                        @Override
+                        public void onResponse(JSONArray response) {
+                            try {
+                                List<Post> posts = new ArrayList<>();
 
-                            for (int i = 0; i < response.length(); i++) {
-                                JSONObject jsonObject = response.getJSONObject(i);
-                                Post post = new Post();
+                                for (int i = 0; i < response.length(); i++) {
+                                    JSONObject jsonObject = response.getJSONObject(i);
+                                    Post post = new Post();
 
-                                post.setTitle(jsonObject.optString("title"));
-                                post.setAddress(jsonObject.optString("address"));
-                                post.setPrice(jsonObject.optString("price"));
-                                post.setDescription(jsonObject.optString("description"));
-                                post.setOwner(jsonObject.optString("owner"));
+                                    post.setTitle(jsonObject.optString("title"));
+                                    post.setAddress(jsonObject.optString("address"));
+                                    post.setPrice(jsonObject.optString("price"));
+                                    post.setDescription(jsonObject.optString("description"));
+                                    post.setOwner(jsonObject.optString("owner"));
+                                    post.setArea(jsonObject.optString("area"));
+//                                    post.setPhone(jsonObject.optString("phone"));
+                                    post.setMaxPeople(jsonObject.optInt("maxPeople"));
+                                    post.setDeposit(jsonObject.optString("deposit"));
+//                                    post.setCreatedAt(jsonObject.optString("createdAt"));
+                                    String createdAtString = jsonObject.optString("createdAt");
+                                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+                                    LocalDateTime createdAtDateTime = LocalDateTime.parse(createdAtString, formatter);
+                                    post.setCreatedAt(createdAtDateTime);
+                                    if (jsonObject.isNull("security")) {
+                                        post.setSecurity((new ArrayList<>()));
+                                    } else {
+                                        JSONArray securityArray = jsonObject.getJSONArray("security");
+                                        if (securityArray.length() == 0) {
+                                            post.setSecurity((new ArrayList<>()));
+                                        } else {
+                                            post.setSecurity(getSecurityFromJsonArray(securityArray));
+                                        }
+                                    }
+                                    if (jsonObject.isNull("utils")) {
+                                        post.setUtils((new ArrayList<>()));
+                                    } else {
+                                        JSONArray utilsArray = jsonObject.getJSONArray("utils");
+                                        if (utilsArray.length() == 0) {
+                                            post.setUtils((new ArrayList<>()));
+                                        } else {
+                                            post.setUtils(getUtilsFromJsonArray(utilsArray));
+                                        }
+                                    }
 
-                                if (jsonObject.isNull("images")) {
-                                    post.setImage(new String[0]);
-                                } else {
-                                    JSONArray imageArray = jsonObject.getJSONArray("images");
-                                    if (imageArray.length() == 0) {
+                                    if (jsonObject.isNull("interior")) {
+                                        post.setInterior((new ArrayList<>()));
+                                    } else {
+                                        JSONArray interiorArray = jsonObject.getJSONArray("interior");
+                                        if (interiorArray.length() == 0) {
+                                            post.setInterior((new ArrayList<>()));
+                                        } else {
+                                            post.setInterior(getInteriorFromJsonArray(interiorArray));
+                                        }
+                                    }
+
+                                    if (jsonObject.isNull("images")) {
                                         post.setImage(new String[0]);
                                     } else {
-                                        post.setImage(getImageListFromJsonArray(imageArray));
+                                        JSONArray imageArray = jsonObject.getJSONArray("images");
+                                        if (imageArray.length() == 0) {
+                                            post.setImage(new String[0]);
+                                        } else {
+                                            post.setImage(getImageListFromJsonArray(imageArray));
+                                        }
                                     }
+
+                                    Log.d("post", post.toString());
+                                    posts.add(post);
                                 }
 
-                                Log.d("post", post.toString());
-                                posts.add(post);
+                                // Gọi callback và truyền danh sách posts về
+                                listener.onSuccess(posts);
+
+                            } catch (JSONException e) {
+                                // Gọi callback và truyền lỗi về
+                                listener.onError(e);
                             }
-
-                            // Gọi callback và truyền danh sách posts về
-                            listener.onSuccess(posts);
-
-                        } catch (JSONException e) {
-                            // Gọi callback và truyền lỗi về
-                            listener.onError(e);
                         }
-                    }
-                },
-                new Response.ErrorListener() {
-                    public void onErrorResponse(VolleyError error) {
-                        // Gọi callback và truyền lỗi về
-                        listener.onError(error);
-                    }
-                });
+                    },
+                    new Response.ErrorListener() {
+                        public void onErrorResponse(VolleyError error) {
+                            // Gọi callback và truyền lỗi về
+                            listener.onError(error);
+                        }
+                    });
 
-        requestQueue.add(jsonArrayRequest);
-    }
+            requestQueue.add(jsonArrayRequest);
+        }
 
     private String[] getImageListFromJsonArray(JSONArray jsonArray) throws JSONException {
         String[] imageArray = new String[jsonArray.length()];
@@ -166,6 +208,50 @@ public class MainActivity extends AppCompatActivity {
         }
         return imageArray;
     }
+    private ArrayList<String> getSecurityFromJsonArray(JSONArray jsonArray) {
+        ArrayList<String> securityList = new ArrayList<>();
+
+        try {
+            for (int i = 0; i < jsonArray.length(); i++) {
+                String securityItem = jsonArray.getString(i);
+                securityList.add(securityItem);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return securityList;
+    }
+    private ArrayList<String> getUtilsFromJsonArray(JSONArray jsonArray) {
+        ArrayList<String> utilsList = new ArrayList<>();
+
+        try {
+            for (int i = 0; i < jsonArray.length(); i++) {
+                String utilItem = jsonArray.getString(i);
+                utilsList.add(utilItem);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return utilsList;
+    }
+    private ArrayList<String> getInteriorFromJsonArray(JSONArray jsonArray) {
+        ArrayList<String> interiorList = new ArrayList<>();
+
+        try {
+            for (int i = 0; i < jsonArray.length(); i++) {
+                String interiorItem = jsonArray.getString(i);
+                interiorList.add(interiorItem);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return interiorList;
+    }
+
+
 
     interface ApiResponseListener<T> {
         void onSuccess(T response);

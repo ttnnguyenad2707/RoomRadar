@@ -9,10 +9,11 @@ public class Post implements Serializable {
     private String title;
     private String description;
     private String address;
-    private int area;
+    private String area;
     private int maxPeople;
     private String price;
     private String deposit;
+    private String phone;
     private ArrayList<String> security;
     private ArrayList<String> utils;
     private ArrayList<String> interior;
@@ -23,7 +24,7 @@ public class Post implements Serializable {
     public Post() {
     }
 
-    public Post(String title, String description, String address, int area, int maxPeople, String price, String deposit, ArrayList<String> security, ArrayList<String> utils, ArrayList<String> interior, String[] image, String owner, LocalDateTime createdAt) {
+    public Post(String title, String description, String address, String area, int maxPeople, String price, String deposit, String phone, ArrayList<String> security, ArrayList<String> utils, ArrayList<String> interior, String[] image, String owner, LocalDateTime createdAt) {
         this.title = title;
         this.description = description;
         this.address = address;
@@ -31,6 +32,7 @@ public class Post implements Serializable {
         this.maxPeople = maxPeople;
         this.price = price;
         this.deposit = deposit;
+        this.phone = phone;
         this.security = security;
         this.utils = utils;
         this.interior = interior;
@@ -63,11 +65,11 @@ public class Post implements Serializable {
         this.address = address;
     }
 
-    public int getArea() {
+    public String getArea() {
         return area;
     }
 
-    public void setArea(int area) {
+    public void setArea(String area) {
         this.area = area;
     }
 
@@ -93,6 +95,14 @@ public class Post implements Serializable {
 
     public void setDeposit(String deposit) {
         this.deposit = deposit;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public ArrayList<String> getSecurity() {
@@ -153,12 +163,13 @@ public class Post implements Serializable {
                 ", maxPeople=" + maxPeople +
                 ", price='" + price + '\'' +
                 ", deposit='" + deposit + '\'' +
+                ", phone='" + phone + '\'' +
                 ", security=" + security +
                 ", utils=" + utils +
                 ", interior=" + interior +
                 ", image=" + Arrays.toString(image) +
                 ", owner='" + owner + '\'' +
-                ", createdAt='" + createdAt + '\'' +
+                ", createdAt=" + createdAt +
                 '}';
     }
 }
