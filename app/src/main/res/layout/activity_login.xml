@@ -29,6 +29,7 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="20dp"
             android:fontFamily="cursive"
+            android:textColor="@color/black"
             android:text="Login"
             android:textSize="40sp"
             android:textStyle="bold" />
@@ -40,6 +41,7 @@
             android:layout_marginLeft="20dp"
             android:layout_marginTop="100dp"
             android:fontFamily="cursive"
+            android:textColor="@color/black"
             android:text="Email"
             android:textSize="25dp"
             android:textStyle="bold" />
@@ -64,6 +66,7 @@
             android:layout_marginLeft="20dp"
             android:layout_marginTop="210dp"
             android:fontFamily="cursive"
+            android:textColor="@color/black"
             android:text="Password"
             android:textSize="25dp"
             android:textStyle="bold" />

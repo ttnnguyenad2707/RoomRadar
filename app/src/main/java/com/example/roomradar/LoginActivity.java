@@ -77,7 +77,7 @@ public class LoginActivity extends AppCompatActivity {
 //                            user.setAdmin(response.getBoolean("admin"));
 //                            user.setCreatedAt(response.getString("createdAt"));
 //                            user.setUpdateAt(response.getString("updatedAt"));
-                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                            Intent intent = new Intent(LoginActivity.this, MainActivity2.class);
 //                            intent.putExtra("user", user);
                             startActivity(intent);
 //                        } catch (JSONException e) {
