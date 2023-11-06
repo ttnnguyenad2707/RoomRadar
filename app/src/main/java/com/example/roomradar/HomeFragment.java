@@ -46,7 +46,7 @@ public class HomeFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private Gson gson = new Gson();
-    String api = "https://roomradar.onrender.com/api/v1/post/getAll/1";
+    String api = "https://roomradar-v2.onrender.com/api/v1/post";
     private RequestQueue requestQueue;
 
     PostAdapter postAdapter;
