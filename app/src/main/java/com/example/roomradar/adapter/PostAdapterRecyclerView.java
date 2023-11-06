@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.roomradar.R;
 import com.example.roomradar.model.Post;
 
@@ -32,7 +33,29 @@ public class PostAdapterRecyclerView extends RecyclerView.Adapter<PostAdapterRec
 
     @Override
     public void onBindViewHolder(@NonNull PostAdapterRecyclerView.PostHolder holder, int position) {
+        Post post = posts.get(position);
+        if(post.getImage() == null){
+            holder.img_post.setBackgroundResource(R.drawable.ic_launcher_background);
+        }else{
+            Glide.with(context).load(post.getImage()[0]).into(holder.img_post);
+        }
+        holder.tv_title_post.setText(post.getTitle());
+        holder.tv_price_post.setText(post.getPrice());
+        holder.tv_area_post.setText(post.getArea());
 
+        holder.btn_edit_post.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        holder.btn_delete_post.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
 
     @Override
