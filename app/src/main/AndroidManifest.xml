@@ -21,12 +21,6 @@
             android:name=".ListPostOfUser"
             android:exported="false" />
         <activity
-            android:name=".model.ListPostOfUserActivity"
-            android:exported="false" />
-        <activity
-            android:name=".MainActivity"
-            android:exported="false" />
-        <activity
             android:name=".AddPostActivity$bottombar"
             android:exported="false" />
         <activity

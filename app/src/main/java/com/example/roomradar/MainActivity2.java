@@ -38,14 +38,7 @@ public class MainActivity2 extends AppCompatActivity {
                         .replace(R.id.frameLayout2, fragment2)
                         .commit();
                 return true;
-            } else if (item.getItemId() == R.id.navigation_item3) {
-                // Replace the fragment with Fragment3
-                UserFrament fragment3 = new UserFrament();
-                fragmentManager.beginTransaction()
-                        .replace(R.id.frameLayout2, fragment3)
-                        .commit();
-                return true;
-            } else if (item.getItemId() == R.id.navigation_item4) {
+            }  else if (item.getItemId() == R.id.navigation_item4) {
                 // Replace the fragment with Fragment4
                 ChatFragment fragment4 = new ChatFragment();
                 fragmentManager.beginTransaction()

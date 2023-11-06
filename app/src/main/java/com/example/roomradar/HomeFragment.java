@@ -1,40 +1,37 @@
 package com.example.roomradar;
 
 import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.Toast;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.Volley;
 import com.example.roomradar.adapter.PostAdapter;
+import com.example.roomradar.api.APIService;
+import com.example.roomradar.model.AddPostData;
 import com.example.roomradar.model.Post;
-import com.example.roomradar.model.User;
+import com.example.roomradar.model.PostRes;
 import com.google.gson.Gson;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -43,14 +40,15 @@ import java.util.List;
  */
 public class HomeFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private Gson gson = new Gson();
-    String api = "https://roomradar-v2.onrender.com/api/v1/post";
-    private RequestQueue requestQueue;
-
     PostAdapter postAdapter;
     GridView gridView;
+
+    String DB_PATH_SUFFIX = "/databases/";
+    SQLiteDatabase database=null;
+    String DATABASE_NAME="roomradar.db";
+
+    // TODO: Rename parameter arguments, choose names that match
+    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
@@ -87,280 +85,115 @@ public class HomeFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-
-        ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
-        if (actionBar != null) {
-            // Thực hiện các tùy chỉnh cho thanh tiêu đề
-            actionBar.setTitle("Ứng dụng của tôi");
-            actionBar.setSubtitle("Mô tả ứng dụng");
-            actionBar.setDisplayHomeAsUpEnabled(true);
-        }
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        // Trong onCreateView() của Fragment
-        View view = inflater.inflate(R.layout.activity_main, container, false);
 
-// Tìm kiếm và thiết lập OnClickListener cho ImageView
-        view.findViewById(R.id.img_search).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), AddPostActivity.class);
-                startActivity(intent);
-            }
-        });
 
-// Tìm kiếm và thiết lập OnClickListener cho Button
-        view.findViewById(R.id.btn_profile).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), LoginActivity.class);
-                startActivity(intent);
-            }
-        });
-        // Trong onCreateView() của Fragment
-        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
-        String jsonUser = sharedPreferences.getString("username", ""); // Trả về "" nếu không tìm thấy giá trị
+        View view = inflater.inflate(R.layout.fragment_home, container, false);
+        processCopy();
 
-        if (!jsonUser.isEmpty()) {
-            // Người dùng đã đăng nhập trước đó, thực hiện các hành động tương ứng
-            User savedObj = gson.fromJson(jsonUser, User.class);
-            gridView = view.findViewById(R.id.newPostView);
-            // Trong onCreateView() của Fragment
-            requestQueue = Volley.newRequestQueue(getActivity());
-            sendApiRequest(new MainActivity.ApiResponseListener<List<Post>>() {
-                @Override
-                public void onSuccess(List<Post> response) {
-                    // Xử lý danh sách posts tại đây
-                    postAdapter = new PostAdapter(getActivity(), R.layout.item_post_layout, response);
-                    gridView.setAdapter(postAdapter);
-                    gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                            Intent intent = new Intent(getActivity(), DetailsPostActivity.class);
-                            intent.putExtra("post", response.get(position));
-                            startActivity(intent);
-                        }
-                    });
-                }
+        // Bước 2: Mở cơ sở dữ liệu và truy vấn dữ liệu
+    openDatabase();
 
-                @Override
-                public void onError(Exception error) {
-                    // Xử lý lỗi tại đây
-                }
-            });
-        } else {
-            // Người dùng chưa đăng nhập, hiển thị màn hình đăng nhập hoặc các tùy chọn khác
-            Intent intent = new Intent(getActivity(), LoginActivity.class);
-            startActivity(intent);
-        }
+        List<Post> posts = queryDataFromDatabase();
+
+        // Bước 3: Hiển thị dữ liệu lên giao diện
+        gridView = view.findViewById(R.id.newPostView);
+        postAdapter = new PostAdapter(getActivity(), R.layout.item_post_layout, posts);
+        gridView.setAdapter(postAdapter);
+
+
         return view;
-
     }
-
-    private void sendApiRequest(final MainActivity.ApiResponseListener<List<Post>> listener) {
-        Log.d("call", "API");
-        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, api, null,
-                new Response.Listener<JSONArray>() {
-                    @Override
-                    public void onResponse(JSONArray response) {
-                        try {
-                            List<Post> posts = new ArrayList<>();
-
-                            for (int i = 0; i < response.length(); i++) {
-                                JSONObject jsonObject = response.getJSONObject(i);
-                                Post post = new Post();
-
-                                post.setTitle(jsonObject.optString("title"));
-                                post.setAddress(jsonObject.optString("address"));
-                                post.setPrice(jsonObject.optString("price"));
-                                post.setDescription(jsonObject.optString("description"));
-                                post.setOwner(jsonObject.optString("owner"));
-                                post.setArea(jsonObject.optString("area"));
-//                                    post.setPhone(jsonObject.optString("phone"));
-                                post.setMaxPeople(jsonObject.optInt("maxPeople"));
-                                post.setDeposit(jsonObject.optString("deposit"));
-//                                    post.setCreatedAt(jsonObject.optString("createdAt"));
-                                String createdAtString = jsonObject.optString("createdAt");
-                                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-                                LocalDateTime createdAtDateTime = LocalDateTime.parse(createdAtString, formatter);
-                                post.setCreatedAt(createdAtDateTime);
-                                if (jsonObject.isNull("security")) {
-                                    post.setSecurity((new ArrayList<>()));
-                                } else {
-                                    JSONArray securityArray = jsonObject.getJSONArray("security");
-                                    if (securityArray.length() == 0) {
-                                        post.setSecurity((new ArrayList<>()));
-                                    }
-                                    else {
-                                        post.setSecurity(getSecurityFromJsonArray(securityArray));
-                                    }
-                                }
-                                if (jsonObject.isNull("utils")) {
-                                    post.setUtils((new ArrayList<>()));
-                                } else {
-                                    JSONArray utilsArray = jsonObject.getJSONArray("utils");
-                                    if (utilsArray.length() == 0) {
-                                        post.setUtils((new ArrayList<>()));
-                                    }
-                                    else {
-                                        post.setUtils(getUtilsFromJsonArray(utilsArray));
-                                    }
-                                }
-
-                                if (jsonObject.isNull("interior")) {
-                                    post.setInterior((new ArrayList<>()));
-                                } else {
-                                    JSONArray interiorArray = jsonObject.getJSONArray("interior");
-                                    if (interiorArray.length() == 0) {
-                                        post.setInterior((new ArrayList<>()));
-                                    }
-                                    else {
-                                        post.setInterior(getInteriorFromJsonArray(interiorArray));
-                                    }
-                                }
-
-                                if (jsonObject.isNull("images")) {
-                                    post.setImage(new String[0]);
-                                } else {
-                                    JSONArray imageArray = jsonObject.getJSONArray("images");
-                                    if (imageArray.length() == 0) {
-                                        post.setImage(new String[0]);
-                                    }
-                                    else {
-                                        post.setImage(getImageListFromJsonArray(imageArray));
-                                    }
-                                }
-
-                                Log.d("post", post.toString());
-                                posts.add(post);
-                            }
-
-                            // Gọi callback và truyền danh sách posts về
-                            listener.onSuccess(posts);
-
-                        } catch (JSONException e) {
-                            // Gọi callback và truyền lỗi về
-                            listener.onError(e);
-                        }
-                    }
-                },
-                new Response.ErrorListener() {
-                    public void onErrorResponse(VolleyError error) {
-                        // Gọi callback và truyền lỗi về
-                        listener.onError(error);
-                    }
-                });
-
-        requestQueue.add(jsonArrayRequest);
-    }
-
-    private String[] getImageListFromJsonArray(JSONArray jsonArray) throws JSONException {
-        String[] imageArray = new String[jsonArray.length()];
-        for (int i = 0; i < jsonArray.length(); i++) {
-            String image = jsonArray.getString(i);
-            imageArray[i] = image;
-        }
-        return imageArray;
-    }
-    private ArrayList<String> getSecurityFromJsonArray(JSONArray jsonArray) {
-        ArrayList<String> securityList = new ArrayList<>();
-
-        try {
-            for (int i = 0; i < jsonArray.length(); i++) {
-                String securityItem = jsonArray.getString(i);
-                securityList.add(securityItem);
+    private void processCopy() {
+        File dbFile = getActivity().getDatabasePath(DATABASE_NAME);
+        if (!dbFile.exists()) {
+            try {
+                CopyDataBaseFromAsset();
+                Toast.makeText(getContext(), "Copying success from Assets folder", Toast.LENGTH_LONG).show();
+            } catch (Exception e) {
+                Toast.makeText(getContext(), e.toString(), Toast.LENGTH_LONG).show();
             }
-        } catch (JSONException e) {
+        }
+    }
+    private String getDatabasePath() {
+        return getContext().getApplicationInfo().dataDir + DB_PATH_SUFFIX+ DATABASE_NAME;
+    }
+
+    public void CopyDataBaseFromAsset() {
+        // TODO Auto-generated method stub
+        try {
+            InputStream myInput;
+            myInput = getContext().getAssets().open(DATABASE_NAME);
+            // Path to the just created empty db
+            String outFileName = getDatabasePath();
+            // if the path doesn't exist first, create it
+            File f = new File(getContext().getApplicationInfo().dataDir + DB_PATH_SUFFIX);
+            if (!f.exists())
+                f.mkdir();
+            // Open the empty db as the output stream
+            OutputStream myOutput = new FileOutputStream(outFileName);
+            // transfer bytes from the inputfile to the outputfile
+            // Truyền bytes dữ liệu từ input đến output
+            int size = myInput.available();
+            byte[] buffer = new byte[size];
+            myInput.read(buffer);
+            myOutput.write(buffer);
+            // Close the streams
+            myOutput.flush();
+            myOutput.close();
+            myInput.close();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
             e.printStackTrace();
         }
-
-        return securityList;
     }
-    private ArrayList<String> getUtilsFromJsonArray(JSONArray jsonArray) {
-        ArrayList<String> utilsList = new ArrayList<>();
-
-        try {
-            for (int i = 0; i < jsonArray.length(); i++) {
-                String utilItem = jsonArray.getString(i);
-                utilsList.add(utilItem);
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        return utilsList;
-    }
-    private ArrayList<String> getInteriorFromJsonArray(JSONArray jsonArray) {
-        ArrayList<String> interiorList = new ArrayList<>();
-
-        try {
-            for (int i = 0; i < jsonArray.length(); i++) {
-                String interiorItem = jsonArray.getString(i);
-                interiorList.add(interiorItem);
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        return interiorList;
+    private void openDatabase() {
+        String dbPath = getActivity().getDatabasePath(DATABASE_NAME).getAbsolutePath();
+        database = SQLiteDatabase.openDatabase(dbPath, null, SQLiteDatabase.OPEN_READONLY);
     }
 
-    /**
-     * A simple {@link Fragment} subclass.
-     * Use the {@link CreatePostFragment#newInstance} factory method to
-     * create an instance of this fragment.
-     */
-    public static class CreatePostFragment extends Fragment {
+    private List<Post> queryDataFromDatabase() {
+        List<Post> posts = new ArrayList<>();
+        if (database != null) {
+            Cursor cursor = database.rawQuery("SELECT Post.*, User.firstname AS owner, categories.name as categoriesName FROM Post INNER JOIN User ON Post.owner = User.id INNER JOIN categories ON Post.categories = categories.id", null);
+            if (cursor != null) {
+                int titleIndex = cursor.getColumnIndex("title");
+                int descriptionIndex = cursor.getColumnIndex("description");
+                int addressIndex = cursor.getColumnIndex("address");
+                int areaIndex = cursor.getColumnIndex("area");
+                int maxPeopleIndex = cursor.getColumnIndex("maxPeople");
+                int priceIndex = cursor.getColumnIndex("price");
+                int depositIndex = cursor.getColumnIndex("deposit");
+                int ownerIndex = cursor.getColumnIndex("owner");
+                int createdAtIndex = cursor.getColumnIndex("createdAt");
+                int thumbnailIndex = cursor.getColumnIndex("images");
+                int categoryIndex = cursor.getColumnIndex("categoriesName");
 
-        // TODO: Rename parameter arguments, choose names that match
-        // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-        private static final String ARG_PARAM1 = "param1";
-        private static final String ARG_PARAM2 = "param2";
-
-        // TODO: Rename and change types of parameters
-        private String mParam1;
-        private String mParam2;
-
-        public CreatePostFragment() {
-            // Required empty public constructor
-        }
-
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment CreatePostFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        public static CreatePostFragment newInstance(String param1, String param2) {
-            CreatePostFragment fragment = new CreatePostFragment();
-            Bundle args = new Bundle();
-            args.putString(ARG_PARAM1, param1);
-            args.putString(ARG_PARAM2, param2);
-            fragment.setArguments(args);
-            return fragment;
-        }
-
-        @Override
-        public void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            if (getArguments() != null) {
-                mParam1 = getArguments().getString(ARG_PARAM1);
-                mParam2 = getArguments().getString(ARG_PARAM2);
+                while (cursor.moveToNext()) {
+                    String title = cursor.getString(titleIndex);
+                    String description = cursor.getString(descriptionIndex);
+                    String address = cursor.getString(addressIndex);
+                    float area = cursor.getFloat(areaIndex);
+                    int maxPeople = cursor.getInt(maxPeopleIndex);
+                    float price = cursor.getFloat(priceIndex);
+                    float deposit = cursor.getFloat(depositIndex);
+                    String owner = cursor.getString(ownerIndex);
+                    String createdAt = cursor.getString(createdAtIndex);
+                    String thumbnail = cursor.getString(thumbnailIndex);
+                    String category = cursor.getString(categoryIndex);
+                    Post post = new Post(title, description, address, area, maxPeople, price, deposit, owner, createdAt,category, thumbnail);
+                    posts.add(post);
+                }
+                cursor.close();
             }
         }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            // Inflate the layout for this fragment
-            return inflater.inflate(R.layout.fragment_create_post, container, false);
-        }
+        return posts;
     }
+
+
 }

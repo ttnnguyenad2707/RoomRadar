@@ -37,8 +37,9 @@ public class PostAdapter extends ArrayAdapter<Post> {
         convertView = myinfater.inflate(idLayout,null);
 
         Post myPost = myList.get(position);
-        ImageView image_post = convertView.findViewById(R.id.image_post);
-        Picasso.get().load((myPost.getImage())[0]).into(image_post);
+
+//        ImageView image_post = convertView.findViewById(R.id.image_post);
+//        Picasso.get().load(myPost.getThumbnail()).into(image_post);
 
         TextView titlePost = convertView.findViewById(R.id.title_post);
         titlePost.setText(myPost.getTitle());
@@ -47,7 +48,7 @@ public class PostAdapter extends ArrayAdapter<Post> {
         addressPost.setText(myPost.getAddress());
 
         TextView pricePost = convertView.findViewById(R.id.price_post);
-        pricePost.setText(myPost.getPrice());
+        pricePost.setText(String.valueOf(myPost.getPrice()) + "VND/Tháng");
 
 
 

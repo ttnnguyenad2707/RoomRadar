@@ -1,30 +1,41 @@
 package com.example.roomradar.model;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Post implements Serializable {
+    @SerializedName("title")
     private String title;
+    @SerializedName("description")
     private String description;
+    @SerializedName("address")
     private String address;
-    private String area;
+    @SerializedName("area")
+    private float area;
+    @SerializedName("maxPeople")
     private int maxPeople;
-    private String price;
-    private String deposit;
-    private String phone;
-    private ArrayList<String> security;
-    private ArrayList<String> utils;
-    private ArrayList<String> interior;
-    private String image[];
+    @SerializedName("price")
+    private float price;
+    @SerializedName("deposit")
+    private float deposit;
+    @SerializedName("owner")
     private String owner;
-    private LocalDateTime createdAt;
+    @SerializedName("created")
+    private String created;
+    @SerializedName("category")
+    private String category;
+    @SerializedName("thumbnail")
+    private String thumbnail;
+
 
     public Post() {
     }
 
-    public Post(String title, String description, String address, String area, int maxPeople, String price, String deposit, String phone, ArrayList<String> security, ArrayList<String> utils, ArrayList<String> interior, String[] image, String owner, LocalDateTime createdAt) {
+    public Post(String title, String description, String address, float area, int maxPeople, float price, float deposit, String owner, String created, String category, String thumbnail) {
         this.title = title;
         this.description = description;
         this.address = address;
@@ -32,13 +43,10 @@ public class Post implements Serializable {
         this.maxPeople = maxPeople;
         this.price = price;
         this.deposit = deposit;
-        this.phone = phone;
-        this.security = security;
-        this.utils = utils;
-        this.interior = interior;
-        this.image = image;
         this.owner = owner;
-        this.createdAt = createdAt;
+        this.created = created;
+        this.category = category;
+        this.thumbnail = thumbnail;
     }
 
     public String getTitle() {
@@ -65,11 +73,11 @@ public class Post implements Serializable {
         this.address = address;
     }
 
-    public String getArea() {
+    public float getArea() {
         return area;
     }
 
-    public void setArea(String area) {
+    public void setArea(float area) {
         this.area = area;
     }
 
@@ -81,60 +89,20 @@ public class Post implements Serializable {
         this.maxPeople = maxPeople;
     }
 
-    public String getPrice() {
+    public float getPrice() {
         return price;
     }
 
-    public void setPrice(String price) {
+    public void setPrice(float price) {
         this.price = price;
     }
 
-    public String getDeposit() {
+    public float getDeposit() {
         return deposit;
     }
 
-    public void setDeposit(String deposit) {
+    public void setDeposit(float deposit) {
         this.deposit = deposit;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public ArrayList<String> getSecurity() {
-        return security;
-    }
-
-    public void setSecurity(ArrayList<String> security) {
-        this.security = security;
-    }
-
-    public ArrayList<String> getUtils() {
-        return utils;
-    }
-
-    public void setUtils(ArrayList<String> utils) {
-        this.utils = utils;
-    }
-
-    public ArrayList<String> getInterior() {
-        return interior;
-    }
-
-    public void setInterior(ArrayList<String> interior) {
-        this.interior = interior;
-    }
-
-    public String[] getImage() {
-        return image;
-    }
-
-    public void setImage(String[] image) {
-        this.image = image;
     }
 
     public String getOwner() {
@@ -145,31 +113,27 @@ public class Post implements Serializable {
         this.owner = owner;
     }
 
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
+    public String getCreated() {
+        return created;
     }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
+    public void setCreated(String created) {
+        this.created = created;
     }
 
-    @Override
-    public String toString() {
-        return "Post{" +
-                "title='" + title + '\'' +
-                ", description='" + description + '\'' +
-                ", address='" + address + '\'' +
-                ", area=" + area +
-                ", maxPeople=" + maxPeople +
-                ", price='" + price + '\'' +
-                ", deposit='" + deposit + '\'' +
-                ", phone='" + phone + '\'' +
-                ", security=" + security +
-                ", utils=" + utils +
-                ", interior=" + interior +
-                ", image=" + Arrays.toString(image) +
-                ", owner='" + owner + '\'' +
-                ", createdAt=" + createdAt +
-                '}';
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public String getThumbnail() {
+        return thumbnail;
+    }
+
+    public void setThumbnail(String thumbnail) {
+        this.thumbnail = thumbnail;
     }
 }

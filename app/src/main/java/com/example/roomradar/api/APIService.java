@@ -2,6 +2,7 @@ package com.example.roomradar.api;
 
 import com.example.roomradar.model.AddPostData;
 import com.example.roomradar.model.Post;
+import com.example.roomradar.model.PostRes;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -15,11 +16,11 @@ import retrofit2.http.Path;
 
 public interface APIService {
     Gson gson = new GsonBuilder().create();
-    APIService apiservice = new Retrofit.Builder().baseUrl("https://roomradar.onrender.com/api/v1/").addConverterFactory(GsonConverterFactory.create(gson)).build().create(APIService.class);
-
-    @GET("post/getAll/{quantity}")
-    Call<Post> getPost(@Path("quantity") int quantity);
+    APIService apiservice = new Retrofit.Builder().baseUrl("https://be-prm-v4.onrender.com/api/v1/").addConverterFactory(GsonConverterFactory.create(gson)).build().create(APIService.class);
 
     @POST("post")
     Call<AddPostData> addNewPost(@Body AddPostData addPostData);
+
+    @GET("post")
+    Call<PostRes> getAllPost();
 }

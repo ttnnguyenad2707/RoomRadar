@@ -45,41 +45,41 @@ public class DetailsPostActivity extends AppCompatActivity {
         TextView addressdetail = findViewById(R.id.address_detailPost);
 
 /////////////////////////////////////////////////
-        Picasso.get().load((post.getImage())[0]).into(imageView);
+//        Picasso.get().load((post.getImage())[0]).into(imageView);
 
-        titledetail.setText(post.getTitle());
-        descriptiondetail.setText(post.getDescription());
-        pricedetail.setText(post.getPrice());
-        areadetail.setText(post.getArea());
-        depositdetail.setText(post.getDeposit());
-
-        ArrayList<String> securityList = post.getSecurity();
-        String securityText = TextUtils.join(", ", securityList);
-        securitydetail.setText(securityText);
-
-        int maxPeople = post.getMaxPeople();
-        maxpeopledetail.setText(String.valueOf(maxPeople));
-
-        ArrayList<String> utilsList = post.getUtils();
-        String utilsText = TextUtils.join(", ", utilsList);
-        utilsdetail.setText(utilsText);
-
-        ArrayList<String> interiorList = post.getInterior();
-        String interiorText = TextUtils.join(", ", interiorList);
-        interiordetail.setText(interiorText);
-
-
-        LocalDateTime createdAt = post.getCreatedAt();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        String createdAtString = createdAt.format(formatter);
-        creatAtdetail.setText(createdAtString);
-
-        addressdetail.setText(post.getAddress());
-        btnBackToList.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+//        titledetail.setText(post.getTitle());
+//        descriptiondetail.setText(post.getDescription());
+//        pricedetail.setText(post.getPrice());
+//        areadetail.setText(post.getArea());
+//        depositdetail.setText(post.getDeposit());
+//
+//        ArrayList<String> securityList = post.getSecurity();
+//        String securityText = TextUtils.join(", ", securityList);
+//        securitydetail.setText(securityText);
+//
+//        int maxPeople = post.getMaxPeople();
+//        maxpeopledetail.setText(String.valueOf(maxPeople));
+//
+//        ArrayList<String> utilsList = post.getUtils();
+//        String utilsText = TextUtils.join(", ", utilsList);
+//        utilsdetail.setText(utilsText);
+//
+//        ArrayList<String> interiorList = post.getInterior();
+//        String interiorText = TextUtils.join(", ", interiorList);
+//        interiordetail.setText(interiorText);
+//
+//
+//        LocalDateTime createdAt = post.getCreatedAt();
+//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+//        String createdAtString = createdAt.format(formatter);
+//        creatAtdetail.setText(createdAtString);
+//
+//        addressdetail.setText(post.getAddress());
+//        btnBackToList.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                finish();
+//            }
+//        });
     }
 }
