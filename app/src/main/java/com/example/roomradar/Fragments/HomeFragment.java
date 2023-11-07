@@ -88,23 +88,20 @@ public class HomeFragment extends Fragment {
 
 
         View view = inflater.inflate(R.layout.fragment_home, container, false);
-        processCopy();
 //
 //        // Bước 2: Mở cơ sở dữ liệu và truy vấn dữ liệu
-        openDatabase();
 
 
-        List<Post> posts = queryDataFromDatabase();
 
         // Bước 3: Hiển thị dữ liệu lên giao diện
         gridView = view.findViewById(R.id.newPostView);
-        postAdapter = new PostAdapter(getActivity(), R.layout.item_post_layout, posts);
+//        postAdapter = new PostAdapter(getActivity(), R.layout.item_post_layout, posts);
         gridView.setAdapter(postAdapter);
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getContext(), DetailsPostActivity.class);
-                intent.putExtra("post",posts.get(position));
+//                intent.putExtra("post",posts.get(position));
                 startActivity(intent);
             }
         });
@@ -112,92 +109,7 @@ public class HomeFragment extends Fragment {
 
         return view;
     }
-    private void processCopy() {
-        File dbFile = getActivity().getDatabasePath(DATABASE_NAME);
-        if (!dbFile.exists()) {
-            try {
-                CopyDataBaseFromAsset();
-                Toast.makeText(getContext(), "Copying success from Assets folder", Toast.LENGTH_LONG).show();
-            } catch (Exception e) {
-                Toast.makeText(getContext(), e.toString(), Toast.LENGTH_LONG).show();
-            }
-        }
-    }
-    private String getDatabasePath() {
-        return getContext().getApplicationInfo().dataDir + DB_PATH_SUFFIX+ DATABASE_NAME;
-    }
 
-    public void CopyDataBaseFromAsset() {
-        // TODO Auto-generated method stub
-        try {
-            InputStream myInput;
-            myInput = getContext().getAssets().open(DATABASE_NAME);
-            // Path to the just created empty db
-            String outFileName = getDatabasePath();
-            // if the path doesn't exist first, create it
-            File f = new File(getContext().getApplicationInfo().dataDir + DB_PATH_SUFFIX);
-            if (!f.exists())
-                f.mkdir();
-            // Open the empty db as the output stream
-            OutputStream myOutput = new FileOutputStream(outFileName);
-            // transfer bytes from the inputfile to the outputfile
-            // Truyền bytes dữ liệu từ input đến output
-            int size = myInput.available();
-            byte[] buffer = new byte[size];
-            myInput.read(buffer);
-            myOutput.write(buffer);
-            // Close the streams
-            myOutput.flush();
-            myOutput.close();
-            myInput.close();
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-    }
-    private void openDatabase() {
-        String dbPath = getActivity().getDatabasePath(DATABASE_NAME).getAbsolutePath();
-        database = SQLiteDatabase.openDatabase(dbPath, null, SQLiteDatabase.OPEN_READONLY);
-    }
-
-    private List<Post> queryDataFromDatabase() {
-        List<Post> posts = new ArrayList<>();
-        if (database != null) {
-            Cursor cursor = database.rawQuery("SELECT Post.*, User.firstname AS owner, categories.name as categoriesName FROM Post INNER JOIN User ON Post.owner = User.id INNER JOIN categories ON Post.categories = categories.id", null);
-            if (cursor != null) {
-                int titleIndex = cursor.getColumnIndex("title");
-                int descriptionIndex = cursor.getColumnIndex("description");
-                int addressIndex = cursor.getColumnIndex("address");
-                int areaIndex = cursor.getColumnIndex("area");
-                int maxPeopleIndex = cursor.getColumnIndex("maxPeople");
-                int priceIndex = cursor.getColumnIndex("price");
-                int depositIndex = cursor.getColumnIndex("deposit");
-                int ownerIndex = cursor.getColumnIndex("owner");
-                int createdAtIndex = cursor.getColumnIndex("createdAt");
-                int thumbnailIndex = cursor.getColumnIndex("thumbnail");
-                int categoryIndex = cursor.getColumnIndex("categoriesName");
-
-                while (cursor.moveToNext()) {
-                    int id = cursor.getInt(0);
-                    String title = cursor.getString(titleIndex);
-                    String description = cursor.getString(descriptionIndex);
-                    String address = cursor.getString(addressIndex);
-                    float area = cursor.getFloat(areaIndex);
-                    int maxPeople = cursor.getInt(maxPeopleIndex);
-                    float price = cursor.getFloat(priceIndex);
-                    float deposit = cursor.getFloat(depositIndex);
-                    String owner = cursor.getString(ownerIndex);
-                    String createdAt = cursor.getString(createdAtIndex);
-                    String thumbnail = cursor.getString(thumbnailIndex);
-                    String category = cursor.getString(categoryIndex);
-                    Post post = new Post(id,title, description, address, area, maxPeople, price, deposit, owner, createdAt,category, thumbnail);
-                    posts.add(post);
-                }
-                cursor.close();
-            }
-        }
-        return posts;
-    }
 
 
 }
