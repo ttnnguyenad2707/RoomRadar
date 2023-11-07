@@ -1,10 +1,11 @@
-package com.example.roomradar;
+package com.example.roomradar.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 
+import com.example.roomradar.R;
 import com.example.roomradar.adapter.PostAdapterRecyclerView;
 import com.example.roomradar.Database.entity.Post;
 import java.util.*;

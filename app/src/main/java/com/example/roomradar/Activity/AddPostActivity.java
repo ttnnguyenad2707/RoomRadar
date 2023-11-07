@@ -1,22 +1,13 @@
-package com.example.roomradar;
+package com.example.roomradar.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.CheckBox;
-import android.widget.EditText;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 
 
 import com.example.roomradar.Database.entity.Category;
+import com.example.roomradar.R;
 import com.example.roomradar.service.CategoryService;
-
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 public class AddPostActivity extends AppCompatActivity {
 

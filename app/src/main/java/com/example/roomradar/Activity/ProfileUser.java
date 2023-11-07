@@ -1,8 +1,10 @@
-package com.example.roomradar;
+package com.example.roomradar.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import com.example.roomradar.R;
 
 public class ProfileUser extends AppCompatActivity {
 

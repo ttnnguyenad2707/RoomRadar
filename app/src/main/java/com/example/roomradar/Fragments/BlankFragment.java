@@ -1,4 +1,4 @@
-package com.example.roomradar;
+package com.example.roomradar.Fragments;
 
 import android.content.Intent;
 import android.database.Cursor;
@@ -15,8 +15,10 @@ import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
+import com.example.roomradar.Database.entity.Post;
+import com.example.roomradar.Activity.DetailsPostActivity;
+import com.example.roomradar.R;
 import com.example.roomradar.adapter.PostAdapter;
-import com.example.roomradar.model.Post;
 
 import java.util.ArrayList;
 import java.util.List;

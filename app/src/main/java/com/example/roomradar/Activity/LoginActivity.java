@@ -1,4 +1,4 @@
-package com.example.roomradar;
+package com.example.roomradar.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -16,8 +16,8 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
 import com.example.roomradar.Database.entity.User;
+import com.example.roomradar.R;
 
 import org.json.JSONException;
 import org.json.JSONObject;

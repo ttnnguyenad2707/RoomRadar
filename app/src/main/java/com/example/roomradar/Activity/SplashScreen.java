@@ -1,4 +1,4 @@
-package com.example.roomradar;
+package com.example.roomradar.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -10,6 +10,8 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.example.roomradar.R;
 
 public class SplashScreen extends AppCompatActivity {
     private static int SPLASH_SCREEN = 3000;

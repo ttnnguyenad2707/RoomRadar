@@ -14,27 +14,16 @@ import java.util.Arrays;
 public class Post implements Serializable {
     @PrimaryKey(autoGenerate = true)
     private int id;
-    @SerializedName("title")
     private String title;
-    @SerializedName("description")
     private String description;
-    @SerializedName("address")
     private String address;
-    @SerializedName("area")
     private float area;
-    @SerializedName("maxPeople")
     private int maxPeople;
-    @SerializedName("price")
     private float price;
-    @SerializedName("deposit")
     private float deposit;
-    @SerializedName("owner")
     private String owner;
-    @SerializedName("created")
     private String created;
-    @SerializedName("category")
     private String category;
-    @SerializedName("thumbnail")
     private String thumbnail;
 
 

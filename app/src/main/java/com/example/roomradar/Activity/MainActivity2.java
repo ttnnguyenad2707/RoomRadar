@@ -1,10 +1,16 @@
-package com.example.roomradar;
+package com.example.roomradar.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 
 import android.os.Bundle;
 
+import com.example.roomradar.Fragments.Addpostfragment;
+import com.example.roomradar.Fragments.BlankFragment;
+import com.example.roomradar.Fragments.ChatFragment;
+import com.example.roomradar.Fragments.FavoritePostFrament;
+import com.example.roomradar.Fragments.HomeFragment;
+import com.example.roomradar.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity2 extends AppCompatActivity {
