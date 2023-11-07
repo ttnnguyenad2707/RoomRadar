@@ -39,12 +39,12 @@ public class LoginActivity extends AppCompatActivity {
         buttonLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(LoginActivity.this,AddPostActivity.class);
-                startActivity(intent);
-//                requestQueue = Volley.newRequestQueue(LoginActivity.this);
-//                String emailValue = email.getText().toString();
-//                String passwordValue = password.getText().toString();
-//                sendApiRequest(emailValue,passwordValue);
+//                Intent intent = new Intent(LoginActivity.this,AddPostActivity.class);
+//                startActivity(intent);
+                requestQueue = Volley.newRequestQueue(LoginActivity.this);
+                String emailValue = email.getText().toString();
+                String passwordValue = password.getText().toString();
+                sendApiRequest(emailValue,passwordValue);
             }
         });
     }

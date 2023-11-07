@@ -147,8 +147,8 @@ public class BlankFragment extends Fragment {
                     String createdAt = cursor.getString(createdAtIndex);
                     String thumbnail = cursor.getString(thumbnailIndex);
                     String category = cursor.getString(categoryIndex);
-                    Post post = new Post(id, title, description, address, area, maxPeople, price, deposit, owner, createdAt, category, thumbnail);
-                    posts.add(post);
+//                    Post post = new Post(title, description, address, area, maxPeople, price, deposit, owner, createdAt, category, thumbnail);
+//                    posts.add(post);
                 }
                 cursor.close();
             }

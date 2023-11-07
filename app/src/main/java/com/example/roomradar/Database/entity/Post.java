@@ -28,7 +28,6 @@ public class Post implements Serializable {
     private String security;
     private String utils;
 
-
     public Post() {
     }
 
