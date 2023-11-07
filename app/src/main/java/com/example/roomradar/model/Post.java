@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Post implements Serializable {
+    @SerializedName("id")
+    private int id;
     @SerializedName("title")
     private String title;
     @SerializedName("description")
@@ -35,7 +37,8 @@ public class Post implements Serializable {
     public Post() {
     }
 
-    public Post(String title, String description, String address, float area, int maxPeople, float price, float deposit, String owner, String created, String category, String thumbnail) {
+    public Post(int id, String title, String description, String address, float area, int maxPeople, float price, float deposit, String owner, String created, String category, String thumbnail) {
+        this.id = id;
         this.title = title;
         this.description = description;
         this.address = address;
@@ -47,6 +50,14 @@ public class Post implements Serializable {
         this.created = created;
         this.category = category;
         this.thumbnail = thumbnail;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getTitle() {

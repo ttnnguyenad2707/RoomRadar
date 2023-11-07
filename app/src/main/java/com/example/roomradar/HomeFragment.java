@@ -1,25 +1,21 @@
 package com.example.roomradar;
 
-import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.Toast;
 
 import com.example.roomradar.adapter.PostAdapter;
-import com.example.roomradar.api.APIService;
-import com.example.roomradar.model.AddPostData;
 import com.example.roomradar.model.Post;
-import com.example.roomradar.model.PostRes;
-import com.google.gson.Gson;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -28,10 +24,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -95,9 +87,10 @@ public class HomeFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         processCopy();
+//
+//        // Bước 2: Mở cơ sở dữ liệu và truy vấn dữ liệu
+        openDatabase();
 
-        // Bước 2: Mở cơ sở dữ liệu và truy vấn dữ liệu
-    openDatabase();
 
         List<Post> posts = queryDataFromDatabase();
 
@@ -105,6 +98,14 @@ public class HomeFragment extends Fragment {
         gridView = view.findViewById(R.id.newPostView);
         postAdapter = new PostAdapter(getActivity(), R.layout.item_post_layout, posts);
         gridView.setAdapter(postAdapter);
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(getContext(), DetailsPostActivity.class);
+                intent.putExtra("post",posts.get(position));
+                startActivity(intent);
+            }
+        });
 
 
         return view;
@@ -171,10 +172,11 @@ public class HomeFragment extends Fragment {
                 int depositIndex = cursor.getColumnIndex("deposit");
                 int ownerIndex = cursor.getColumnIndex("owner");
                 int createdAtIndex = cursor.getColumnIndex("createdAt");
-                int thumbnailIndex = cursor.getColumnIndex("images");
+                int thumbnailIndex = cursor.getColumnIndex("thumbnail");
                 int categoryIndex = cursor.getColumnIndex("categoriesName");
 
                 while (cursor.moveToNext()) {
+                    int id = cursor.getInt(0);
                     String title = cursor.getString(titleIndex);
                     String description = cursor.getString(descriptionIndex);
                     String address = cursor.getString(addressIndex);
@@ -186,7 +188,7 @@ public class HomeFragment extends Fragment {
                     String createdAt = cursor.getString(createdAtIndex);
                     String thumbnail = cursor.getString(thumbnailIndex);
                     String category = cursor.getString(categoryIndex);
-                    Post post = new Post(title, description, address, area, maxPeople, price, deposit, owner, createdAt,category, thumbnail);
+                    Post post = new Post(id,title, description, address, area, maxPeople, price, deposit, owner, createdAt,category, thumbnail);
                     posts.add(post);
                 }
                 cursor.close();
