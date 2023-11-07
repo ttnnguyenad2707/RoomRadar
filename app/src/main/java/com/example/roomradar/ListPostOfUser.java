@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
 
 import com.example.roomradar.adapter.PostAdapterRecyclerView;
-import com.example.roomradar.model.Post;
+import com.example.roomradar.Database.entity.Post;
 import java.util.*;
 
 public class ListPostOfUser extends AppCompatActivity {

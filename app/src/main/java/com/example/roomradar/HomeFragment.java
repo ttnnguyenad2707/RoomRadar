@@ -15,7 +15,7 @@ import android.widget.GridView;
 import android.widget.Toast;
 
 import com.example.roomradar.adapter.PostAdapter;
-import com.example.roomradar.model.Post;
+import com.example.roomradar.Database.entity.Post;
 
 import java.io.File;
 import java.io.FileOutputStream;

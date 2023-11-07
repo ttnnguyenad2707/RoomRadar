@@ -12,7 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.roomradar.R;
-import com.example.roomradar.model.Post;
+import com.example.roomradar.Database.entity.Post;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;

@@ -10,9 +10,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 import com.example.roomradar.R;
-import com.example.roomradar.model.Post;
+import com.example.roomradar.Database.entity.Post;
 
 import java.util.List;
 

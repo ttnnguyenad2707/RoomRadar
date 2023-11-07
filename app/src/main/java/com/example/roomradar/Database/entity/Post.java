@@ -1,4 +1,7 @@
-package com.example.roomradar.model;
+package com.example.roomradar.Database.entity;
+
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -7,8 +10,9 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+@Entity
 public class Post implements Serializable {
-    @SerializedName("id")
+    @PrimaryKey(autoGenerate = true)
     private int id;
     @SerializedName("title")
     private String title;
