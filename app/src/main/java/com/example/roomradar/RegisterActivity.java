@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -22,7 +23,7 @@ import org.json.JSONObject;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    String api = "https://roomradar.onrender.com/api/v1/auth/register";
+    String api = "https://be-prm-v4.onrender.com/api/v1/auth/register";
     private RequestQueue requestQueue;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
