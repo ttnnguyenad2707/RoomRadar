@@ -42,7 +42,7 @@ public class MainActivity2 extends AppCompatActivity {
             }
             else if (item.getItemId() == R.id.navigation_item3) {
                 // Replace the fragment with Fragment3
-                addPostFragment fragment3 = new addPostFragment();
+                Addpostfragment fragment3 = new Addpostfragment();
                 fragmentManager.beginTransaction()
                         .replace(R.id.frameLayout2, fragment3)
                         .commit();
