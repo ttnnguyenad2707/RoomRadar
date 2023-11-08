@@ -1,6 +1,7 @@
 package com.example.roomradar.service;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.example.roomradar.Database.database;
 import com.example.roomradar.Database.entity.User;
@@ -25,4 +26,17 @@ public class UserService {
 
         return db.userDAO().getUserById(id);
     }
+    public User getUserByEmail(String email){
+        User user = db.userDAO().getUserByEmail(email);
+        return user;
+    }
+
+    public  User verifyUser (String email, String Password){
+        return db.userDAO().verifyUser(email,Password);
+    }
+
+    public void updateUser (User user){
+         db.userDAO().updateUser(user);
+    }
+
 }

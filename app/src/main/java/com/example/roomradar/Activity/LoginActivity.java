@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -42,71 +43,26 @@ public class LoginActivity extends AppCompatActivity {
         buttonLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Intent intent = new Intent(LoginActivity.this,AddPostActivity.class);
-//                startActivity(intent);
-                requestQueue = Volley.newRequestQueue(LoginActivity.this);
+                UserService userService = UserService.getInstance(LoginActivity.this);
                 String emailValue = email.getText().toString();
                 String passwordValue = password.getText().toString();
-                sendApiRequest(emailValue,passwordValue);
+                User userCheck = userService.verifyUser(emailValue,passwordValue);
+                if(userCheck != null){
+                    Toast.makeText(getApplicationContext(), "Dang nhap thanh cong", Toast.LENGTH_LONG).show();
+                    SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putInt("User",userCheck.getId());
+                    editor.apply();
+                    Intent intent = new Intent(LoginActivity.this,MainActivity2.class);
+                    startActivity(intent);
+                }
+                else{
+                    Toast.makeText(getApplicationContext(), "Dang nhap khong thanh cong", Toast.LENGTH_LONG).show();
+                }
             }
         });
     }
-    private void sendApiRequest(String email, String password) {
-        // ... Code gửi yêu cầu API sử dụng requestQueue ...
-        // truyền dữ liệu bào body
-        JSONObject requestBody = new JSONObject();
-        try {
-            requestBody.put("email", email);
-            requestBody.put("password", password);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
 
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, api, requestBody,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-//                        Log.d("API Response", response.toString());
-                        //lấy dữ liệu từ api gửi về
-                        User user = new User();
-//                        try {
-                            Gson gson = new Gson();
-                            String jsonString = response.toString();
-                            JsonObject jsonObject = gson.fromJson(jsonString, JsonObject.class);
-                            String firstname = jsonObject.get("firstname").getAsString();
-                            String lastname = jsonObject.get("lastname").getAsString();
-                            String email = jsonObject.get("email").getAsString();
-                            boolean admin = jsonObject.get("admin").getAsBoolean();
-                            user.setFirstname(firstname);
-                            user.setLastname(lastname);
-                            user.setEmail(email);
-                            user.setAdmin(admin);
-                            Log.d("user1", "onCreate: " + user.toString());
-                            SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
-                            SharedPreferences.Editor editor = sharedPreferences.edit();
-                            String userJsonString = gson.toJson(user); // Chuyển đổi đối tượng User thành chuỗi JSON
-                            editor.putString("username", userJsonString); // Lưu trữ chuỗi JSON vào SharedPreferences
-                            editor.apply();
-
-                            Intent intent = new Intent(LoginActivity.this, MainActivity2.class);
-                            startActivity(intent);
-
-//                        } catch (JSONException e) {
-//
-//                        }
-//                        Log.d("API",user.toString());
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        // Xử lý lỗi
-                        Log.e("API Error", error.toString());
-                    }
-                });
-
-        requestQueue.add(jsonObjectRequest);
-    }
 
     public void onTextViewClick(View view) {
         // Thực hiện các thao tác khi TextView được nhấp

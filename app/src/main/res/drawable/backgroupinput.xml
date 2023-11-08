@@ -2,18 +2,21 @@
     <item android:state_pressed="true">
         <shape android:shape="rectangle">
             <solid android:color="#FFFFFF" /> <!-- Màu nền trắng -->
+            <corners android:radius="5dp"/>
             <stroke android:color="#00CED1" android:width="1dp" /> <!-- Viền xanh nước biển 1dp khi ấn vào -->
         </shape>
     </item>
     <item android:state_focused="true">
         <shape android:shape="rectangle">
-            <solid android:color="#FFFFFF" /> <!-- Màu nền trắng -->
+            <solid android:color="#FFFFFF" />
+            <corners android:radius="5dp"/><!-- Màu nền trắng -->
             <stroke android:color="#00CED1" android:width="1dp" /> <!-- Viền xanh nước biển 1dp khi active -->
         </shape>
     </item>
     <item>
         <shape android:shape="rectangle">
-            <solid android:color="#FFFFFF" /> <!-- Màu nền trắng -->
+            <solid android:color="#FFFFFF" />
+            <corners android:radius="5dp"/><!-- Màu nền trắng -->
             <stroke android:color="#808080" android:width="1dp" /> <!-- Viền xám 1dp -->
         </shape>
     </item>
