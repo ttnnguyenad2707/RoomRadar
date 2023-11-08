@@ -21,7 +21,7 @@ public class User implements Serializable {
     private Boolean status;
     private String password;
 
-
+    private byte [] avatar;
     public User () {
 
     }
@@ -34,6 +34,14 @@ public class User implements Serializable {
         this.isAdmin = false;
         this.status = true;
         this.password = password;
+    }
+
+    public byte[] getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(byte[] avatar) {
+        this.avatar = avatar;
     }
 
     public int getId() {
@@ -98,5 +106,19 @@ public class User implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", firstname='" + firstname + '\'' +
+                ", lastname='" + lastname + '\'' +
+                ", email='" + email + '\'' +
+                ", phone='" + phone + '\'' +
+                ", isAdmin=" + isAdmin +
+                ", status=" + status +
+                ", password='" + password + '\'' +
+                '}';
     }
 }

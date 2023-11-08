@@ -15,6 +15,12 @@ public interface UserDAO {
     @Query("Select * from User where id =:UserId ")
     User getUserById(int UserId);
 
+    @Query("Select * from User where email= :Email ")
+    User getUserByEmail(String Email);
+    @Query("Select * from User where email= :Email and password=:Password")
+    User verifyUser(String Email, String Password);
     @Update
-    void updateUser(User user);
+    Void updateUser(User user);
+
+
 }

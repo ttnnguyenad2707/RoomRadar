@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 
 import com.example.roomradar.Activity.ListPostOfUser;
 import com.example.roomradar.Activity.ProfileUser;
+import com.example.roomradar.Activity.ResetPassword;
 import com.example.roomradar.R;
 
 /**
@@ -80,6 +81,16 @@ public class ChatFragment extends Fragment {
                 startActivity(intent);
             }
         });
+
+        view.findViewById(R.id.changepassword).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), ResetPassword.class);
+                startActivity(intent);
+            }
+        });{
+
+        }
         return view;
     }
 }
