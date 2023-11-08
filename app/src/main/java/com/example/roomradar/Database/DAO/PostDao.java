@@ -6,11 +6,13 @@ import androidx.room.Query;
 
 import com.example.roomradar.Database.entity.Post;
 
+import java.util.List;
+
 @Dao
 public interface PostDao {
     @Insert
     void insertPost(Post post);
 
     @Query("SELECT * FROM Post")
-    Post getAllPost();
+    List<Post> getAllPost();
 }

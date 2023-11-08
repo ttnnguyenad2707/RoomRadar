@@ -6,8 +6,14 @@ import android.os.Bundle;
 
 
 import com.example.roomradar.Database.entity.Category;
+import com.example.roomradar.Database.entity.Security;
+import com.example.roomradar.Database.entity.Utils;
 import com.example.roomradar.R;
 import com.example.roomradar.service.CategoryService;
+import com.example.roomradar.service.SecurityService;
+import com.example.roomradar.service.UtilsService;
+
+import java.util.List;
 
 public class AddPostActivity extends AppCompatActivity {
 
@@ -17,15 +23,16 @@ public class AddPostActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_post);
-        CategoryService categoryService = CategoryService.getInstance(AddPostActivity.this);
-//        List<Category> categoryList = categoryService.getAllCategory();
-//        for (Category category : categoryList) {
-//            Log.d("category", " "+ category);
-//
-//        }
 
-        Category category = new Category("Phone");
-        categoryService.insertCategory(category);
+        CategoryService categoryService = CategoryService.getInstance(AddPostActivity.this);
+        UtilsService utilService = UtilsService.getInstance(AddPostActivity.this);
+        SecurityService securityService = SecurityService.getInstance(AddPostActivity.this);
+
+        List<Category> categoryList = categoryService.getAllCategory();
+        List<Utils> utilsList = utilService.getAllUtils();
+        List<Security> securityList = securityService.getAllSecurity();
+
+
 
 
 

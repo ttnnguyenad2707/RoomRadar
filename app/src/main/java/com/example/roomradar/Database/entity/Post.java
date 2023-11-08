@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 @Entity
 public class Post implements Serializable {
@@ -23,7 +24,7 @@ public class Post implements Serializable {
     private float deposit;
     private String owner;
     private String created;
-    private String category;
+    private int category;
     private String thumbnail;
     private String security;
     private String utils;
@@ -31,7 +32,7 @@ public class Post implements Serializable {
     public Post() {
     }
 
-    public Post(String title, String description, String address, float area, int maxPeople, float price, float deposit, String owner, String created, String category, String thumbnail, String security, String utils) {
+    public Post(String title, String description, String address, float area, int maxPeople, float price, float deposit, String owner, String created, int category, String thumbnail, String security, String utils) {
         this.title = title;
         this.description = description;
         this.address = address;
@@ -127,11 +128,11 @@ public class Post implements Serializable {
         this.created = created;
     }
 
-    public String getCategory() {
+    public int getCategory() {
         return category;
     }
 
-    public void setCategory(String category) {
+    public void setCategory(int category) {
         this.category = category;
     }
 
@@ -144,7 +145,9 @@ public class Post implements Serializable {
     }
 
     public String getSecurity() {
+
         return security;
+
     }
 
     public void setSecurity(String security) {
@@ -158,4 +161,8 @@ public class Post implements Serializable {
     public void setUtils(String utils) {
         this.utils = utils;
     }
+
+
+
+
 }
