@@ -92,6 +92,8 @@ public class Addpostfragment extends Fragment {
         UtilsService utilService = UtilsService.getInstance(getActivity().getApplicationContext());
         SecurityService securityService = SecurityService.getInstance(getActivity().getApplicationContext());
         categoryService.insertCategory(new Category("Nhà Nguyên Căn"));
+        utilService.addnewUtils(new Utils("Tu lanh"));
+        securityService.addNewSecurity(new Security("PCCC"));
 
         List<Category> categoryList = categoryService.getAllCategory();
         List<Utils> utilsList = utilService.getAllUtils();

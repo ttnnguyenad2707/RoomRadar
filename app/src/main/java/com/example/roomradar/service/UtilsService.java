@@ -23,4 +23,8 @@ public class UtilsService {
     public List<Utils> getAllUtils(){
         return db.utilsDAO().getAllUtils();
     }
+    public void addnewUtils(Utils utils){
+        db.utilsDAO().addNewUtils(utils);
+    }
+
 }

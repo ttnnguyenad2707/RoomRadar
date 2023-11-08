@@ -28,5 +28,7 @@ public class SecurityService {
         return db.securityDAO().getSecurityById(id);
     }
 
-
+    public void addNewSecurity(Security security){
+        db.securityDAO().addNewSecurity(security);
+    }
 }

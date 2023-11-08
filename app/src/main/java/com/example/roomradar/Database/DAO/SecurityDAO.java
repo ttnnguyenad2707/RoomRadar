@@ -15,5 +15,7 @@ public interface SecurityDAO {
     List<Security> getAllSecurity();
     @Query("select * from security where id=:id")
     Security getSecurityById(int id);
+    @Insert
+    Security addNewSecurity(Security security);
 
 }

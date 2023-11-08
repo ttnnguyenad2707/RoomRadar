@@ -9,8 +9,7 @@ public class Utils {
     private int id;
     private String name;
 
-    public Utils(int id, String name) {
-        this.id = id;
+    public Utils( String name) {
         this.name = name;
     }
 
