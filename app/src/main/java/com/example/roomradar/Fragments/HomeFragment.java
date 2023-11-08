@@ -18,6 +18,7 @@ import com.example.roomradar.Activity.DetailsPostActivity;
 import com.example.roomradar.R;
 import com.example.roomradar.adapter.PostAdapter;
 import com.example.roomradar.Database.entity.Post;
+import com.example.roomradar.service.PostService;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -94,14 +95,16 @@ public class HomeFragment extends Fragment {
 
 
         // Bước 3: Hiển thị dữ liệu lên giao diện
+        PostService postService = PostService.getInstance(getContext());
+        List<Post> posts = postService.getAllPost();
         gridView = view.findViewById(R.id.newPostView);
-//        postAdapter = new PostAdapter(getActivity(), R.layout.item_post_layout, posts);
+        postAdapter = new PostAdapter(getActivity(), R.layout.item_post_layout, posts);
         gridView.setAdapter(postAdapter);
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getContext(), DetailsPostActivity.class);
-//                intent.putExtra("post",posts.get(position));
+                intent.putExtra("post",posts.get(position));
                 startActivity(intent);
             }
         });

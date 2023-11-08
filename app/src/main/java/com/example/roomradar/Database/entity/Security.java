@@ -9,8 +9,8 @@ public class Security {
     private int id;
     private String name;
 
-    public Security(int id, String name) {
-        this.id = id;
+    public Security( String name) {
+
         this.name = name;
     }
 
