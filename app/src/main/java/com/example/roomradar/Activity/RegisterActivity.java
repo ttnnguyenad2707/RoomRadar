@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -38,18 +39,31 @@ public class RegisterActivity extends AppCompatActivity {
         Register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                requestQueue = Volley.newRequestQueue(RegisterActivity.this);
+                UserService userService = UserService.getInstance(RegisterActivity.this);
                 String email = Email.getText().toString();
                 String password = Password.getText().toString();
                 String firstname = Firstname.getText().toString();
                 String lastname = Lastname.getText().toString();
-                //check usser toonf tai
-
-                User user = new User(firstname,lastname,email,password);
-                UserService userService = UserService.getInstance(RegisterActivity.this);
-                userService.insertUser(user);
-
-
+                String nameRegex = "^[a-zA-Z]+$";
+                String passwordRegex = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$";
+                String emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
+                if(email.matches(emailRegex)&&password.matches(passwordRegex)&&firstname.matches(nameRegex)&&lastname.matches(nameRegex)){
+                    //check usser toonf tai
+                    User userCheck = userService.getUserByEmail(email);
+                    if(userCheck == null){
+                        Toast.makeText(getApplicationContext(), "Đã đăng ký tài khoản", Toast.LENGTH_LONG).show();
+                        User user = new User(firstname,lastname,email,password);
+                        userService.insertUser(user);
+                        Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                        startActivity(intent);
+                    }
+                    else{
+                        Toast.makeText(getApplicationContext(), "Tài Khoản đã tồn tại", Toast.LENGTH_LONG).show();
+                    }
+                }
+                else {
+                    Toast.makeText(RegisterActivity.this, "Thông tin đăng ký chưa hợp lệ", Toast.LENGTH_SHORT).show();
+                }
 
             }
         });
