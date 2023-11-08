@@ -83,6 +83,7 @@ public class LoginActivity extends AppCompatActivity {
                             Intent intent = new Intent(LoginActivity.this, MainActivity2.class);
 //                            intent.putExtra("user", user);
                             startActivity(intent);
+
 //                        } catch (JSONException e) {
 //                            Log.d("api","Lỗi");
 //                        }
