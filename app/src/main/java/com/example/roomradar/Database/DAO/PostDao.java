@@ -11,7 +11,7 @@ import java.util.List;
 @Dao
 public interface PostDao {
     @Insert
-    void insertPost(Post post);
+    long insertPost(Post post);
 
     @Query("SELECT * FROM Post")
     List<Post> getAllPost();

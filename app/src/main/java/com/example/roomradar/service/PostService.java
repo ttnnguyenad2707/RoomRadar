@@ -20,8 +20,8 @@ public class PostService {
         return InstanceService;
     }
 
-    public void addNewPost(Post post){
-        db.postDao().insertPost(post);
+    public long addNewPost(Post post){
+        return db.postDao().insertPost(post);
     }
 
     public List<Post> getAllPost(){

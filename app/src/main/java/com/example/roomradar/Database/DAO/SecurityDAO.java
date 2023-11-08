@@ -16,6 +16,6 @@ public interface SecurityDAO {
     @Query("select * from security where id=:id")
     Security getSecurityById(int id);
     @Insert
-    Security addNewSecurity(Security security);
+    void addNewSecurity(Security security);
 
 }

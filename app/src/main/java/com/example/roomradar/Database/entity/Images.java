@@ -8,9 +8,10 @@ public class Images {
     @PrimaryKey(autoGenerate = true)
     private int id;
     private String url;
+    private int postId;
 
-    public Images(int id, String url) {
-        this.id = id;
+    public Images(String url,int postId) {
+        this.postId = postId;
         this.url = url;
     }
 
@@ -28,5 +29,13 @@ public class Images {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public int getPostId() {
+        return postId;
+    }
+
+    public void setPostId(int postId) {
+        this.postId = postId;
     }
 }

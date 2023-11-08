@@ -25,10 +25,77 @@
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
+
             <TableLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:stretchColumns="*">
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/textView7"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="Thumbnails" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <Button
+                            android:id="@+id/up_thumbnails"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:text="Add thumbnails" />
+
+                        <ImageView
+                            android:id="@+id/preview_image"
+                            android:layout_width="match_parent"
+                            android:layout_height="200dp"
+                            android:layout_weight="1"
+                            android:scaleType="fitCenter"
+                             />
+                    </LinearLayout>
+
+                </TableRow>
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/textView7"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="Thumbnails" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <Button
+                            android:id="@+id/up_images"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:text="Add Images" />
+                        <ListView
+                            android:id="@+id/add_preview_images"
+                            android:layout_width="match_parent"
+                            android:layout_height="300dp" />
+
+                    </LinearLayout>
+
+                </TableRow>
 
                 <TableRow
                     android:layout_width="match_parent"
@@ -132,7 +199,7 @@
                         android:layout_height="wrap_content"
                         android:ems="10"
                         android:hint="Area"
-                        android:inputType="text" />
+                        android:inputType="number|numberDecimal" />
 
                 </TableRow>
 
@@ -153,7 +220,7 @@
                         android:layout_height="wrap_content"
                         android:ems="10"
                         android:hint="Max People"
-                        android:inputType="text" />
+                        android:inputType="number|numberDecimal" />
 
                 </TableRow>
 
@@ -174,7 +241,7 @@
                         android:layout_height="wrap_content"
                         android:ems="10"
                         android:hint="Price"
-                        android:inputType="text" />
+                        android:inputType="number|numberDecimal" />
                 </TableRow>
 
                 <TableRow
@@ -194,7 +261,7 @@
                         android:layout_height="wrap_content"
                         android:ems="10"
                         android:hint="Deposit"
-                        android:inputType="text" />
+                        android:inputType="number|numberDecimal" />
                 </TableRow>
 
                 <TableRow
