@@ -90,5 +90,16 @@ public class User implements Serializable {
         this.status = status;
     }
 
-
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", firstname='" + firstname + '\'' +
+                ", lastname='" + lastname + '\'' +
+                ", email='" + email + '\'' +
+                ", phone='" + phone + '\'' +
+                ", isAdmin=" + isAdmin +
+                ", status=" + status +
+                '}';
+    }
 }
