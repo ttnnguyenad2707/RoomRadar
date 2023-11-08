@@ -19,19 +19,21 @@ public class User implements Serializable {
     private String phone;
     private Boolean isAdmin;
     private Boolean status;
+    private String password;
 
 
     public User () {
 
     }
 
-    public User(String firstname, String lastname, String email, String phone, Boolean isAdmin, Boolean status, List<Integer> favorites) {
+    public User(String firstname, String lastname, String email, String password) {
         this.firstname = firstname;
         this.lastname = lastname;
         this.email = email;
-        this.phone = phone;
-        this.isAdmin = isAdmin;
-        this.status = status;
+        this.phone = "";
+        this.isAdmin = false;
+        this.status = true;
+        this.password = password;
     }
 
     public int getId() {
@@ -90,16 +92,11 @@ public class User implements Serializable {
         this.status = status;
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", firstname='" + firstname + '\'' +
-                ", lastname='" + lastname + '\'' +
-                ", email='" + email + '\'' +
-                ", phone='" + phone + '\'' +
-                ", isAdmin=" + isAdmin +
-                ", status=" + status +
-                '}';
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

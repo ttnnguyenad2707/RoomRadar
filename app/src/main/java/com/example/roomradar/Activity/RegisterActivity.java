@@ -15,7 +15,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.roomradar.Database.entity.User;
 import com.example.roomradar.R;
+import com.example.roomradar.service.UserService;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -41,7 +43,14 @@ public class RegisterActivity extends AppCompatActivity {
                 String password = Password.getText().toString();
                 String firstname = Firstname.getText().toString();
                 String lastname = Lastname.getText().toString();
-                sendApiRequest(email,password,firstname,lastname);
+                //check usser toonf tai
+
+                User user = new User(firstname,lastname,email,password);
+                UserService userService = UserService.getInstance(RegisterActivity.this);
+                userService.insertUser(user);
+
+
+
             }
         });
     }
@@ -51,38 +60,5 @@ public class RegisterActivity extends AppCompatActivity {
         // Ví dụ: Chuyển hướng sang màn hình khác
         Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
         startActivity(intent);
-    }
-    private void sendApiRequest(String email, String password, String firstname, String lastname) {
-        // ... Code gửi yêu cầu API sử dụng requestQueue ...
-        // truyền dữ liệu bào body
-        JSONObject requestBody = new JSONObject();
-        try {
-            requestBody.put("firstname",firstname);
-            requestBody.put("lastname",lastname);
-            requestBody.put("email", email);
-            requestBody.put("password", password);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, api, requestBody,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        // Xử lý phản hồi từ API
-                        Log.d("API Response", response.toString());
-                            Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
-                            startActivity(intent);
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        // Xử lý lỗi
-                        Log.e("API Error", error.toString());
-                    }
-                });
-
-        requestQueue.add(jsonObjectRequest);
     }
 }

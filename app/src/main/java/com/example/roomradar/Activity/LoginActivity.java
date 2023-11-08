@@ -19,6 +19,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.roomradar.Database.entity.User;
 import com.example.roomradar.R;
+import com.example.roomradar.service.UserService;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
@@ -86,6 +87,7 @@ public class LoginActivity extends AppCompatActivity {
                             String userJsonString = gson.toJson(user); // Chuyển đổi đối tượng User thành chuỗi JSON
                             editor.putString("username", userJsonString); // Lưu trữ chuỗi JSON vào SharedPreferences
                             editor.apply();
+
                             Intent intent = new Intent(LoginActivity.this, MainActivity2.class);
                             startActivity(intent);
 
