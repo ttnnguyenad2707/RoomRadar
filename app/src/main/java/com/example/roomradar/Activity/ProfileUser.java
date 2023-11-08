@@ -61,9 +61,25 @@ public class ProfileUser extends AppCompatActivity {
         else{
             vipuser.setText("Tài khoản quản trị viên");
         }
-        if (userCheck.getAvatar().length > 0){
-            Bitmap bitmap = BitmapFactory.decodeByteArray(userCheck.getAvatar(), 0, userCheck.getAvatar().length);
-            imageView.setImageBitmap(bitmap);
+
+        try {
+            byte[] avatar = userCheck.getAvatar(); // Mảng byte avatar từ cơ sở dữ liệu
+
+            if (avatar != null && avatar.length > 0) {
+                Bitmap bitmap = BitmapFactory.decodeByteArray(avatar, 0, avatar.length);
+                imageView.setImageBitmap(bitmap);
+            } else {
+                // Xử lý khi mảng byte avatar rỗng
+                // Ví dụ: Gán một hình ảnh mặc định cho ImageView
+                imageView.setImageResource(R.drawable.baseline_account_box_24);
+            }
+        } catch (Exception e) {
+            // Xử lý lỗi trong khối if
+            // Ví dụ: In thông báo lỗi hoặc thực hiện hành động khác
+            e.printStackTrace();
+            // Chuyển luồng điều khiển sang phần else
+            // Ví dụ: Gán một hình ảnh mặc định cho ImageView
+            imageView.setImageResource(R.drawable.baseline_account_box_24);
         }
 
         EditText editName = findViewById(R.id.editTextText);
