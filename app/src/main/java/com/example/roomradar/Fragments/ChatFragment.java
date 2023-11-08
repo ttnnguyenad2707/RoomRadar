@@ -1,4 +1,4 @@
-package com.example.roomradar;
+package com.example.roomradar.Fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,7 +8,10 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+
+import com.example.roomradar.Activity.ListPostOfUser;
+import com.example.roomradar.Activity.ProfileUser;
+import com.example.roomradar.R;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -65,7 +68,15 @@ public class ChatFragment extends Fragment {
         view.findViewById(R.id.profile_listPost).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(),ListPostOfUser.class);
+                Intent intent = new Intent(getActivity(), ListPostOfUser.class);
+                startActivity(intent);
+            }
+        });
+
+        view.findViewById(R.id.btn_edit_profile).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), ProfileUser.class);
                 startActivity(intent);
             }
         });

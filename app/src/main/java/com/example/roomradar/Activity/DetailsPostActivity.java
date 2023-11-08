@@ -1,4 +1,4 @@
-package com.example.roomradar;
+package com.example.roomradar.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import com.example.roomradar.Database.entity.Post;
+import com.example.roomradar.R;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;

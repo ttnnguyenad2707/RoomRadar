@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:stretchColumns="*"
-    tools:context=".DetailsPostActivity">
+    tools:context=".Activity.DetailsPostActivity">
 
     <ImageView
         android:id="@+id/post_detail_images"

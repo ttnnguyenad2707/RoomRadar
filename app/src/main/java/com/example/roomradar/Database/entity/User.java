@@ -4,49 +4,41 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 import java.io.Serializable;
+import java.util.List;
 
+
+
+@Entity
 public class User implements Serializable {
 
-    private Boolean status;
-    private String id;
+    @PrimaryKey(autoGenerate = true)
+    private int id;
     private String firstname;
     private  String lastname;
-    private String emailUser;
-    private Boolean admin ;
-    private String createdAt;
-    private String updateAt;
+    private String email;
+    private String phone;
+    private Boolean isAdmin;
+    private Boolean status;
+
 
     public User () {
 
     }
 
-    public User( Boolean status, String id, String firstname, String lastname, String emailUser, Boolean admin, String createdAt, String updateAt) {
-
-        this.status = status;
-        this.id = id;
+    public User(String firstname, String lastname, String email, String phone, Boolean isAdmin, Boolean status, List<Integer> favorites) {
         this.firstname = firstname;
         this.lastname = lastname;
-        this.emailUser = emailUser;
-        this.admin = admin;
-        this.createdAt = createdAt;
-        this.updateAt = updateAt;
-    }
-
-
-
-    public Boolean getStatus() {
-        return status;
-    }
-
-    public void setStatus(Boolean status) {
+        this.email = email;
+        this.phone = phone;
+        this.isAdmin = isAdmin;
         this.status = status;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -66,49 +58,48 @@ public class User implements Serializable {
         this.lastname = lastname;
     }
 
-    public String getEmailUser() {
-        return emailUser;
+    public String getEmail() {
+        return email;
     }
 
-    public void setEmailUser(String emailUser) {
-        this.emailUser = emailUser;
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public Boolean getAdmin() {
-        return admin;
+        return isAdmin;
     }
 
     public void setAdmin(Boolean admin) {
-        this.admin = admin;
+        isAdmin = admin;
     }
 
-    public String getCreatedAt() {
-        return createdAt;
+    public Boolean getStatus() {
+        return status;
     }
 
-    public void setCreatedAt(String createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public String getUpdateAt() {
-        return updateAt;
-    }
-
-    public void setUpdateAt(String updateAt) {
-        this.updateAt = updateAt;
+    public void setStatus(Boolean status) {
+        this.status = status;
     }
 
     @Override
     public String toString() {
         return "User{" +
-                ", status=" + status +
-                ", id='" + id + '\'' +
+                "id=" + id +
                 ", firstname='" + firstname + '\'' +
                 ", lastname='" + lastname + '\'' +
-                ", emailUser='" + emailUser + '\'' +
-                ", admin=" + admin +
-                ", createdAt='" + createdAt + '\'' +
-                ", updateAt='" + updateAt + '\'' +
+                ", email='" + email + '\'' +
+                ", phone='" + phone + '\'' +
+                ", isAdmin=" + isAdmin +
+                ", status=" + status +
                 '}';
     }
 }
