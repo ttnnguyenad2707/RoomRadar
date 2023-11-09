@@ -65,6 +65,7 @@ public class DetailsPostActivity extends AppCompatActivity {
 
         ImageView imageView = findViewById(R.id.post_detail_images);
         Button btnBackToList = findViewById(R.id.btnBackToList);
+        Button btnChatWithOwner = findViewById(R.id.btnChatWithOwner);
         TextView titledetail = findViewById(R.id.title_detailPost);
         TextView descriptiondetail = findViewById(R.id.description_detailPost);
         TextView pricedetail = findViewById(R.id.price_detailPost);
@@ -133,6 +134,14 @@ public class DetailsPostActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 finish();
+            }
+        });
+        btnChatWithOwner.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(DetailsPostActivity.this,ChatActivity.class);
+                intent.putExtra("otherUserId",post.getOwner());
+                startActivity(intent);
             }
         });
     }

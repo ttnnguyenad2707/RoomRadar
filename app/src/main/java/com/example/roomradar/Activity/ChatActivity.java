@@ -1,30 +1,37 @@
 package com.example.roomradar.Activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.roomradar.Database.entity.User;
 import com.example.roomradar.R;
 import com.example.roomradar.Database.entity.Message;
 import com.example.roomradar.adapter.MessageAdapter;
+import com.example.roomradar.service.UserService;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class ChatActivity extends AppCompatActivity {
-
+    private DatabaseReference usersRef;
     private RecyclerView recyclerView;
     private MessageAdapter messageAdapter;
     private List<Message> messages = new ArrayList<>();
@@ -35,13 +42,22 @@ public class ChatActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
+        UserService userService = UserService.getInstance(this);
 
-        // Lấy ID của người đang đăng nhập và ID của người bạn đang chat với từ Intent hoặc SharedPreferences
         SharedPreferences sharedPreferences = this.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
-        int ownerId = sharedPreferences.getInt("User",0);
+        int userId = sharedPreferences.getInt("User",0);
 
-        currentUserId = String.valueOf(ownerId); // Thay thế bằng cách lấy từ Intent hoặc SharedPreferences
-        otherUserId = "1"; // Thay thế bằng cách lấy từ Intent hoặc SharedPreferences
+        Intent intent = getIntent();
+        int ownerId = (int) intent.getSerializableExtra("otherUserId");
+
+        currentUserId = String.valueOf(userId); // Thay thế bằng cách lấy từ Intent hoặc SharedPreferences
+        otherUserId = String.valueOf(ownerId); // Thay thế bằng cách lấy từ Intent hoặc SharedPreferences
+
+        usersRef = FirebaseDatabase.getInstance().getReference("users");
+        checkAndSaveOtherUserInfo();
+
+        TextView nameUserReceiver = findViewById(R.id.nameUserReceiver);
+        nameUserReceiver.setText(userService.getUserById(Integer.valueOf(otherUserId)).getFirstname());
 
         recyclerView = findViewById(R.id.recyclerView);
         messageAdapter = new MessageAdapter(messages,  currentUserId);
@@ -106,5 +122,32 @@ public class ChatActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private void checkAndSaveOtherUserInfo() {
+        usersRef.child(otherUserId).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (!dataSnapshot.exists()) {
+                    // Nếu thông tin người dùng không tồn tại trên Firebase, hãy lưu nó
+                    saveOtherUserInfoToFirebase();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                // Xử lý lỗi nếu có
+            }
+        });
+    }
+
+    private void saveOtherUserInfoToFirebase() {
+        // Tạo đối tượng người dùng
+        UserService userService = UserService.getInstance(this);
+
+        User otherUser = userService.getUserById(Integer.valueOf(otherUserId));
+
+        // Lưu thông tin người dùng lên Firebase
+        usersRef.child(otherUserId).setValue(otherUser);
     }
 }
