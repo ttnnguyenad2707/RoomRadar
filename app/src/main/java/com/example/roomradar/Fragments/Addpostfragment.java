@@ -2,7 +2,9 @@ package com.example.roomradar.Fragments;
 
 import android.app.Activity;
 import android.content.ClipData;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -129,9 +131,9 @@ public class Addpostfragment extends Fragment {
 
         UtilsService utilService = UtilsService.getInstance(getActivity().getApplicationContext());
         SecurityService securityService = SecurityService.getInstance(getActivity().getApplicationContext());
-//        categoryService.insertCategory(new Category("Nhà Nguyên Căn"));
-//        utilService.addnewUtils(new Utils("Tu lanh"));
-//        securityService.addNewSecurity(new Security("PCCC"));
+        categoryService.insertCategory(new Category("Nhà Nguyên Căn"));
+        utilService.addnewUtils(new Utils("Tu lanh"));
+        securityService.addNewSecurity(new Security("PCCC"));
 
         List<Category> categoryList = categoryService.getAllCategory();
         List<Utils> utilsList = utilService.getAllUtils();
@@ -336,7 +338,9 @@ public class Addpostfragment extends Fragment {
         // Format the current time as a string
         String currentTimeString = dateFormat.format(currentTime);
 
-        Post post = new Post(title, description, address, area, maxPeople, price, deposit, "owner", currentTimeString, categoryId, url, securityId.toString(), utils.toString());
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        int ownerId = sharedPreferences.getInt("User",0);
+        Post post = new Post(title, description, address, area, maxPeople, price, deposit, ownerId, currentTimeString, categoryId, url, securityId.toString(), utils.toString());
 
 
 
