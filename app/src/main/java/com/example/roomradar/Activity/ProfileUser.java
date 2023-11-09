@@ -19,32 +19,44 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.cloudinary.Configuration;
+import com.cloudinary.android.MediaManager;
+import com.cloudinary.android.callback.ErrorInfo;
+import com.cloudinary.android.callback.UploadCallback;
 import com.example.roomradar.service.UserService;
 import com.example.roomradar.Database.entity.User;
 import com.example.roomradar.R;
+import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Map;
 
 public class ProfileUser extends AppCompatActivity {
     private static final int REQUEST_CODE_GALLERY = 1;
+    private boolean isMediaManagerInitialized = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_user);
 
         UserService userService = UserService.getInstance(ProfileUser.this);
+
         SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
         int userId = sharedPreferences.getInt("User", 0);
         User userCheck = userService.getUserById(userId);
+
+
         TextView viewname= findViewById(R.id.viewname);
         TextView email= findViewById(R.id.viewemail);
         TextView phonenumber= findViewById(R.id.viewPhone);
         TextView vipuser= findViewById(R.id.viewVip);
-        ImageView imageView = findViewById(R.id.item_post_dislike);
-        Log.d("users", "onCreate: "+userCheck);
+        ImageView imageView = findViewById(R.id.preview_user_avatar);
+
         viewname.setText(userCheck.getFirstname()+userCheck.getLastname());
+
         email.setText(userCheck.getEmail());
         if (userCheck.getPhone().equals("")) {
             phonenumber.setText("Vui lòng cập nhật số điện thoại");
@@ -59,11 +71,10 @@ public class ProfileUser extends AppCompatActivity {
         }
 
         try {
-            byte[] avatar = userCheck.getAvatar(); // Mảng byte avatar từ cơ sở dữ liệu
+            String avatar = userCheck.getAvatar(); // Mảng byte avatar từ cơ sở dữ liệu
 
-            if (avatar != null && avatar.length > 0) {
-                Bitmap bitmap = BitmapFactory.decodeByteArray(avatar, 0, avatar.length);
-                imageView.setImageBitmap(bitmap);
+            if (avatar != null ) {
+                Picasso.get().load(avatar).into(imageView);
             } else {
                 // Xử lý khi mảng byte avatar rỗng
                 // Ví dụ: Gán một hình ảnh mặc định cho ImageView
@@ -155,21 +166,49 @@ public class ProfileUser extends AppCompatActivity {
             Uri imageUri = data.getData();
             SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
             int userId = sharedPreferences.getInt("User", 0);
-            try {
-                // Chuyển Uri thành mảng byte
-                InputStream inputStream = getContentResolver().openInputStream(imageUri);
-                byte[] imageData = getBytesFromInputStream(inputStream);
+            ImageView avartar_preview = findViewById(R.id.preview_user_avatar);
+            Glide.with(this)
+                    .load(imageUri)
+                    .into(avartar_preview);
+            MediaManager.get().upload(imageUri)
+                    .unsigned("PRM392") // Thay "your_unsigned_preset" bằng unsigned preset của bạn
+                    .callback(new UploadCallback() {
+                        @Override
+                        public void onStart(String requestId) {
+                            // Xử lý khi bắt đầu upload
+                        }
 
-                // Tạo entity và gán dữ liệu ảnh
-                UserService userService = UserService.getInstance(ProfileUser.this);
-                User user = userService.getUserById(userId);
-                user.setAvatar(imageData);
-                userService.updateUser(user);
-                // Thực hiện thao tác chèn vào Room
+                        @Override
+                        public void onProgress(String requestId, long bytes, long totalBytes) {
+                            // Xử lý khi upload đang tiến hành
 
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+                        }
+
+                        @Override
+                        public void onSuccess(String requestId, Map resultData) {
+                            // Xử lý khi upload thành công
+                            String publicId = (String) resultData.get("public_id");
+                            String url = (String) resultData.get("url");
+                            UserService userService = UserService.getInstance(ProfileUser.this);
+                            User user = userService.getUserById(userId);
+                            user.setAvatar(url);
+                            userService.updateUser(user);
+                            Toast.makeText(getApplicationContext(), "Upload successfully", Toast.LENGTH_SHORT).show();
+
+
+                        }
+
+                        @Override
+                        public void onError(String requestId, ErrorInfo error) {
+                            // Xử lý khi xảy ra lỗi
+                        }
+
+                        @Override
+                        public void onReschedule(String requestId, ErrorInfo error) {
+                            // Xử lý khi cần reschedule upload
+                        }
+                    }).dispatch();
+
         }
     }
 

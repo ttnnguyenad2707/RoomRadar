@@ -159,11 +159,6 @@ public class Addpostfragment extends Fragment {
         lv_security.setAdapter(securityCheckBoxAdapter);
         utilsCheckboxAdapter = new UtilsCheckboxAdapter(getActivity(), R.layout.item_check_box, utilsList);
         lv_utils.setAdapter(utilsCheckboxAdapter);
-        MediaManager.init(getActivity(), new Configuration.Builder()
-                .setCloudName("dtpujfoo8")
-                .setApiKey("697855136624351")
-                .setApiSecret("gYkgLXmSaCiVhCM40clYpA_dFr8")
-                .build());
 
         view.findViewById(R.id.up_images).setOnClickListener(new View.OnClickListener() {
             @Override

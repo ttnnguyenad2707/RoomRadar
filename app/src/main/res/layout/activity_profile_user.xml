@@ -24,7 +24,7 @@
             android:layout_height="match_parent">
 
             <ImageView
-                android:id="@+id/item_post_dislike"
+                android:id="@+id/preview_user_avatar"
                 android:layout_width="200dp"
                 android:layout_height="200dp"
                 android:scaleType="fitCenter"
