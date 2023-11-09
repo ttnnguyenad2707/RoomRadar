@@ -26,6 +26,9 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyCWM1e9RlsTlaTaih06t_Hldt8nL961p00" />
         <activity
+            android:name=".Activity.EditPostActivity"
+            android:exported="false" />
+        <activity
             android:name=".Activity.LikePostListActivity"
             android:exported="false" />
         <activity
