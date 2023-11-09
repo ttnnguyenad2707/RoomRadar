@@ -1,5 +1,7 @@
 package com.example.roomradar.Fragments;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -7,8 +9,17 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
+import com.example.roomradar.Database.entity.Post;
+import com.example.roomradar.Database.entity.PostLikedByUser;
 import com.example.roomradar.R;
+import com.example.roomradar.adapter.PostAdapter;
+import com.example.roomradar.service.PostLikeByUserService;
+import com.example.roomradar.service.PostService;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -60,7 +71,25 @@ public class FavoritePostFrament extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_favorite_post_frament, container, false);
+        SharedPreferences sharedPreferences = getContext().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        int userId = sharedPreferences.getInt("User",0);
+        // Bước 3: Hiển thị dữ liệu lên giao diện
+        View view = inflater.inflate(R.layout.fragment_favorite_post_frament, container, false);
+
+        PostLikeByUserService postlikeService = PostLikeByUserService.getInstance(getContext());
+        PostService postService = PostService.getInstance(getContext());
+        List<PostLikedByUser> postsLiked = postlikeService.getFavoriteByUser(userId);
+        List<Post> posts = new ArrayList<>();
+        for (PostLikedByUser p: postsLiked ) {
+            if(p.getUser_id() == userId ){
+                posts.add(postService.getPostById(p.getPost_id()));
+            }
+        }
+
+        ListView listview = view.findViewById(R.id.listPostLikedFG) ;
+        PostAdapter postAdapter = new PostAdapter(getActivity(), R.layout.item_post_layout, posts);
+        listview.setAdapter(postAdapter);
+
+        return view;
     }
 }
