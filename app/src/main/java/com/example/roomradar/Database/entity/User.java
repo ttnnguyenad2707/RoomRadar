@@ -21,7 +21,7 @@ public class User implements Serializable {
     private Boolean status;
     private String password;
 
-    private byte [] avatar;
+    private String avatar;
     public User () {
 
     }
@@ -36,11 +36,11 @@ public class User implements Serializable {
         this.password = password;
     }
 
-    public byte[] getAvatar() {
+    public String getAvatar() {
         return avatar;
     }
 
-    public void setAvatar(byte[] avatar) {
+    public void setAvatar(String avatar) {
         this.avatar = avatar;
     }
 
