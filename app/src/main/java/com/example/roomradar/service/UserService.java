@@ -39,4 +39,10 @@ public class UserService {
          db.userDAO().updateUser(user);
     }
 
+    public String getUserLastName(int userId) {
+        return db.userDAO().getUserLastName(userId);
+    }
+    public String getUserPhone(int userId) {
+        return db.userDAO().getUserPhone(userId);
+    }
 }

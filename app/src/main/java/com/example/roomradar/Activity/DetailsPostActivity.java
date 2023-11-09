@@ -22,6 +22,8 @@ import com.example.roomradar.StringConverter;
 import com.example.roomradar.adapter.ImageAdapter;
 import com.example.roomradar.service.ImagesService;
 import com.example.roomradar.service.SecurityService;
+import com.example.roomradar.service.UserService;
+import com.example.roomradar.service.UtilsService;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -49,7 +51,7 @@ public class DetailsPostActivity extends AppCompatActivity {
         TextView maxpeopledetail = findViewById(R.id.maxPeople_detailPost);
         TextView depositdetail = findViewById(R.id.deposit_detailPost);
         TextView categorydetail = findViewById(R.id.category_detailPost);
-        TextView interiordetail = findViewById(R.id.interior_detailPost);
+
         TextView ownerdetail = findViewById(R.id.owner_detailPost);
         TextView creatAtdetail = findViewById(R.id.createdAt_detailPost);
         TextView phonedetail = findViewById(R.id.phone_detailPost);
@@ -59,7 +61,7 @@ public class DetailsPostActivity extends AppCompatActivity {
         ListView lv_sercurity = findViewById(R.id.list_security);
         ListView lv_utils = findViewById(R.id.list_utils);
         GridView lv_images = findViewById(R.id.grid_view_image);
-
+/////////////////////////////////////////
         List<Integer> security = StringConverter.convertStringToList(post.getSecurity()); // convert String "[1,2,3]" => array [1,2,3]
         List<String> securityName = new ArrayList<>();
         SecurityService securityService = SecurityService.getInstance(DetailsPostActivity.this);
@@ -68,7 +70,21 @@ public class DetailsPostActivity extends AppCompatActivity {
         }
         ArrayAdapter<String> adapterCommon = new ArrayAdapter<String>(DetailsPostActivity.this, android.R.layout.simple_list_item_1, securityName);
         lv_sercurity.setAdapter(adapterCommon);
+///////////////////////////////
+        List<Integer> utils = StringConverter.convertStringToList(post.getUtils()); // convert String "[1,2,3]" => array [1,2,3]
+        List<String> utilsName = new ArrayList<>();
+        UtilsService utilsService = UtilsService.getInstance(DetailsPostActivity.this);
+        for (Integer i : utils) {
+           utilsName.add(utilsService.getUtilsById(i).getName());
+        }
+        ArrayAdapter<String> adapterCommon1 = new ArrayAdapter<String>(DetailsPostActivity.this, android.R.layout.simple_list_item_1, utilsName);
+        lv_utils.setAdapter(adapterCommon1);
+        ////////////////////////////////
+       int userId = post.getOwner();
+        String lastName = UserService.getInstance(this).getUserLastName(userId);
+        String phone = UserService.getInstance(this).getUserPhone(userId);
 
+        /////////////////////////
         ImagesService imagesService = ImagesService.getInstance(this);
         List<Images> images = imagesService.getImagesByPost(post.getId());
 
@@ -82,6 +98,9 @@ public class DetailsPostActivity extends AppCompatActivity {
         descriptiondetail.setText(post.getDescription());
         pricedetail.setText(String.valueOf(post.getPrice()));
         areadetail.setText(String.valueOf(post.getArea()));
+        creatAtdetail.setText(post.getCreated());
+        ownerdetail.setText(lastName);
+        phonedetail.setText(phone);
         depositdetail.setText(String.valueOf(post.getDeposit()));
 
 
