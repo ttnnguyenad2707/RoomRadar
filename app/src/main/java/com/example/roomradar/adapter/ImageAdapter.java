@@ -22,8 +22,13 @@ public class ImageAdapter extends ArrayAdapter<Images> {
     private Activity context;
     int idLayout;
     private List<Images> listImageUris;
+    private Images selectedImage = null;
 
-    public ImageAdapter(Activity context,int idLayout, List<Images> listImageUris) {
+    public Images getSelectedImage() {
+        return selectedImage;
+    }
+
+    public ImageAdapter(Activity context, int idLayout, List<Images> listImageUris) {
         super(context, idLayout, listImageUris);
         this.context = context;
         this.idLayout = idLayout;
@@ -39,6 +44,19 @@ public class ImageAdapter extends ArrayAdapter<Images> {
         String url = listImageUris.get(position).getUrl();
         ImageView image_post = convertView.findViewById(R.id.image_view_list);
         Picasso.get().load(url).into(image_post);
+
+        image_post.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(image_post.getBackground() == null){
+                    image_post.setBackgroundResource(R.drawable.lavender_border);
+                    selectedImage = listImageUris.get(position);
+                }else{
+                    selectedImage = null;
+                    image_post.setBackgroundResource(0);
+                }
+            }
+        });
 
         return convertView;
     }

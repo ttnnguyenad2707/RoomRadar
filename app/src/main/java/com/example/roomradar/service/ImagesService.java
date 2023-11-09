@@ -19,8 +19,12 @@ public class ImagesService {
         }
         return InstanceService;
     }
-    public void addNewImages(Images images){
-        db.imageDAO().addNewImage(images);
+    public long addNewImages(Images images){
+        return db.imageDAO().addNewImage(images);
+    }
+
+    public void updateImage(Images images){
+        db.imageDAO().updateImage(images);
     }
     public List<Images> getImagesByPost(int postId){
         return db.imageDAO().getImagesByPost(postId);
