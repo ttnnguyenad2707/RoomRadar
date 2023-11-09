@@ -27,4 +27,7 @@ public class PostService {
     public List<Post> getAllPost(){
         return db.postDao().getAllPost();
     }
+    public Post getPostById(int postId){
+        return db.postDao().getPostById(postId);
+    }
 }
