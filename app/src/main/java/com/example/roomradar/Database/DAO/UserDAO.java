@@ -22,5 +22,9 @@ public interface UserDAO {
     @Update
     Void updateUser(User user);
 
+    @Query("SELECT lastName FROM user WHERE id = :userId")
+    String getUserLastName(int userId);
 
+    @Query("SELECT phone FROM user WHERE id = :userId")
+    String getUserPhone(int userId);
 }

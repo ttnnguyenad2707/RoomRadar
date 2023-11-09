@@ -22,7 +22,7 @@ public class Post implements Serializable {
     private int maxPeople;
     private float price;
     private float deposit;
-    private String owner;
+    private int owner;
     private String created;
     private int category;
     private String thumbnail;
@@ -32,7 +32,7 @@ public class Post implements Serializable {
     public Post() {
     }
 
-    public Post(String title, String description, String address, float area, int maxPeople, float price, float deposit, String owner, String created, int category, String thumbnail, String security, String utils) {
+    public Post(String title, String description, String address, float area, int maxPeople, float price, float deposit, int owner, String created, int category, String thumbnail, String security, String utils) {
         this.title = title;
         this.description = description;
         this.address = address;
@@ -112,11 +112,11 @@ public class Post implements Serializable {
         this.deposit = deposit;
     }
 
-    public String getOwner() {
+    public int getOwner() {
         return owner;
     }
 
-    public void setOwner(String owner) {
+    public void setOwner(int owner) {
         this.owner = owner;
     }
 

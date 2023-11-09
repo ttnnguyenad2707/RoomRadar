@@ -15,4 +15,6 @@ public interface UtilsDAO {
     @Insert
     void addNewUtils(Utils utils);
 
+    @Query("select * from utils where id=:id")
+    Utils geUtilsById(int id);
 }

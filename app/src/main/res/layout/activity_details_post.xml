@@ -6,6 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fadeScrollbars="true"
+
+
     android:orientation="vertical"
     android:overScrollMode="always"
     android:scrollbars="vertical"
@@ -14,6 +16,7 @@
 
 
     <ImageView
+        android:background="#EBF3E8"
         android:id="@+id/post_detail_images"
         android:layout_width="match_parent"
         android:layout_height="300dp"
@@ -31,8 +34,9 @@
 
 
             >
+
             <TableRow
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1">
 
@@ -42,6 +46,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="top"
                     android:layout_span="2"
+                    android:background="#EBF3E8"
                     android:numColumns="5" />
 
             </TableRow>
@@ -54,14 +59,17 @@
                 <TextView
                     android:layout_width="129dp"
                     android:layout_height="match_parent"
-                    android:background="#FF9800"
+                    android:background="#D2E3C8"
                     android:text="TITLE :"
+                    android:textStyle="bold"
+
 
                     android:textColor="#FFFFFF" />
 
                 <TextView
                     android:id="@+id/title_detailPost"
                     android:layout_width="282dp"
+                    android:background="#EBF3E8"
                     android:layout_height="wrap_content" />
             </TableRow>
 
@@ -73,13 +81,15 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:background="#FF9800"
                     android:text="Description :"
+                    android:background="#D2E3C8"
+
+                    android:textStyle="bold"
                     android:textColor="#FFFFFF" />
 
                 <TextView
                     android:id="@+id/description_detailPost"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </TableRow>
 
@@ -92,13 +102,15 @@
                     android:id="@+id/textView16"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:background="#FF9800"
+                    android:background="#D2E3C8"
                     android:text="Price :"
+                    android:textStyle="bold"
                     android:textColor="#FFFFFF" />
 
                 <TextView
                     android:id="@+id/price_detailPost"
                     android:layout_width="wrap_content"
+                    android:background="#EBF3E8"
                     android:layout_height="wrap_content" />
             </TableRow>
 
@@ -110,8 +122,9 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:background="#FF9800"
+                    android:background="#D2E3C8"
                     android:text="Area :"
+                    android:textStyle="bold"
                     android:textColor="#FFFFFF" />
 
                 <TextView
@@ -129,14 +142,16 @@
                     android:id="@+id/textView20"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:background="#FF9800"
+                    android:background="#D2E3C8"
                     android:text="MaxPeople ; "
+                    android:textStyle="bold"
                     android:textColor="#FFFFFF" />
 
                 <TextView
                     android:id="@+id/maxPeople_detailPost"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#EBF3E8" />
             </TableRow>
 
             <TableRow
@@ -148,8 +163,9 @@
                     android:id="@+id/textView22"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:background="#FF9800"
+                    android:background="#D2E3C8"
                     android:text="Deposit :"
+                    android:textStyle="bold"
                     android:textColor="#FFFFFF" />
 
                 <TextView
@@ -167,33 +183,37 @@
                     android:id="@+id/textView24"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:background="#FF9800"
+                    android:background="#D2E3C8"
                     android:text="Category : "
+                    android:textStyle="bold"
                     android:textColor="#FFFFFF" />
 
                 <TextView
                     android:id="@+id/category_detailPost"
                     android:layout_width="wrap_content"
+                    android:background="#EBF3E8"
                     android:layout_height="wrap_content" />
             </TableRow>
 
             <TableRow
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="32dp"
                 android:layout_weight="1">
 
                 <TextView
                     android:id="@+id/textView26"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:background="#FF9800"
+                    android:background="#D2E3C8"
                     android:text="security : "
+                    android:textStyle="bold"
                     android:textColor="#FFFFFF" />
 
                 <ListView
                     android:id="@+id/list_security"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="129dp"
+                    android:background="#EBF3E8" />
 
             </TableRow>
 
@@ -206,35 +226,19 @@
                     android:id="@+id/textView28"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:background="#FF9800"
+                    android:background="#D2E3C8"
                     android:text="utils : "
+                    android:textStyle="bold"
                     android:textColor="#FFFFFF" />
 
                 <ListView
                     android:id="@+id/list_utils"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                    android:layout_height="110dp" />
 
             </TableRow>
 
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1">
 
-                <TextView
-                    android:id="@+id/textView30"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:background="#FF9800"
-                    android:text="interior : "
-                    android:textColor="#FFFFFF" />
-
-                <TextView
-                    android:id="@+id/interior_detailPost"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-            </TableRow>
 
             <TableRow
                 android:layout_width="match_parent"
@@ -245,13 +249,15 @@
                     android:id="@+id/textView32"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:background="#FF9800"
+                    android:background="#D2E3C8"
                     android:text="owner :"
+                    android:textStyle="bold"
                     android:textColor="#F4F4F4" />
 
                 <TextView
                     android:id="@+id/owner_detailPost"
                     android:layout_width="wrap_content"
+                    android:background="#EBF3E8"
                     android:layout_height="wrap_content" />
             </TableRow>
 
@@ -264,8 +270,9 @@
                     android:id="@+id/textView36"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:background="#FF9800"
+                    android:background="#D2E3C8"
                     android:text="createdAt : "
+                    android:textStyle="bold"
                     android:textColor="#FFFFFF" />
 
                 <TextView
@@ -283,13 +290,15 @@
                     android:id="@+id/textView37"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:background="#FF9800"
+                    android:background="#D2E3C8"
                     android:text="Phone :"
+                    android:textStyle="bold"
                     android:textColor="#FFFFFF" />
 
                 <TextView
                     android:id="@+id/phone_detailPost"
                     android:layout_width="wrap_content"
+                    android:background="#EBF3E8"
                     android:layout_height="wrap_content" />
             </TableRow>
 
@@ -302,8 +311,9 @@
                     android:id="@+id/textView11"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:background="#FF9800"
+                    android:background="#D2E3C8"
                     android:text="Address : "
+                    android:textStyle="bold"
                     android:textColor="#FFFFFF" />
 
                 <TextView
@@ -314,6 +324,7 @@
 
             <TableRow
                 android:layout_width="match_parent"
+                android:background="#EBF3E8"
                 android:layout_height="match_parent">
 
                 <Button
