@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_pressed="true">
+        <shape>
+            <solid android:color="#2d3430" /> <!-- Màu nền khi trạng thái được nhấn -->
+            <corners android:radius="20dp" /> <!-- Bán kính bo góc -->
+        </shape>
+    </item>
+    <item android:state_focused="true">
+        <shape>
+            <solid android:color="#2d3430" /> <!-- Màu nền khi trạng thái được tập trung -->
+            <corners android:radius="20dp" /> <!-- Bán kính bo góc -->
+        </shape>
+    </item>
+    <item>
+        <shape>
+            <solid android:color="#ffffff" /> <!-- Màu nền mặc định -->
+            <corners android:radius="20dp" /> <!-- Bán kính bo góc -->
+        </shape>
+    </item>
+</selector>

@@ -3,21 +3,26 @@
     <item
         android:id="@+id/navigation_item1"
         android:icon="@drawable/baseline_home_24"
+        android:drawable="@drawable/menuitem"
         android:title="Home" />
     <item
         android:id="@+id/navigation_item2"
         android:icon="@drawable/baseline_save_24"
+        android:drawable="@drawable/menuitem"
         android:title="Save" />
     <item
         android:id="@+id/navigation_item3"
         android:icon="@drawable/baseline_add_circle_24"
+        android:drawable="@drawable/menuitem"
         android:title="Add" />
     <item
         android:id="@+id/navigation_item5"
         android:icon="@drawable/baseline_search_24"
+        android:drawable="@drawable/menuitem"
         android:title="Search" />
     <item
         android:id="@+id/navigation_item4"
         android:icon="@drawable/baseline_settings_24"
+        android:drawable="@drawable/menuitem"
         android:title="Setting" />
 </menu>
