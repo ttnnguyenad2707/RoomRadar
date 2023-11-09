@@ -28,6 +28,13 @@
             android:backgroundTint="#FEFEFE"
             android:text="Profile"
             android:textColor="#040000" />
+        <Button
+            android:id="@+id/btn_chat_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#FEFEFE"
+            android:text="Chat"
+            android:textColor="#040000" />
 
         <Button
             android:id="@+id/profile_listPost"
