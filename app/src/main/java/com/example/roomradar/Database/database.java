@@ -9,6 +9,7 @@ import androidx.room.TypeConverters;
 import com.example.roomradar.Database.DAO.CategoryDAO;
 import com.example.roomradar.Database.DAO.ImageDAO;
 import com.example.roomradar.Database.DAO.PostDao;
+import com.example.roomradar.Database.DAO.PostLikeByUserDAO;
 import com.example.roomradar.Database.DAO.SecurityDAO;
 import com.example.roomradar.Database.DAO.UserDAO;
 import com.example.roomradar.Database.DAO.UtilsDAO;
@@ -39,6 +40,7 @@ public abstract class database extends RoomDatabase {
     public abstract SecurityDAO securityDAO ();
     public abstract UtilsDAO utilsDAO ();
     public abstract ImageDAO imageDAO ();
+    public abstract PostLikeByUserDAO postLikeByUserDAO();
 
 
 

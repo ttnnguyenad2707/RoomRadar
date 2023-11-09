@@ -65,13 +65,13 @@
             >
 
             <ImageView
-                android:id="@+id/imageView2"
+                android:id="@+id/item_post_like"
                 android:layout_width="20dp"
                 android:layout_height="50dp"
                 app:srcCompat="@drawable/_12" />
 
             <ImageView
-                android:id="@+id/imageView3"
+                android:id="@+id/item_post_dislike"
                 android:layout_width="wrap_content"
                 android:layout_height="50dp"
                 app:srcCompat="@drawable/baseline_heart_broken_24" />

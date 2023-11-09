@@ -1,6 +1,8 @@
 package com.example.roomradar.adapter;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,8 +13,10 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.example.roomradar.Database.entity.PostLikedByUser;
 import com.example.roomradar.R;
 import com.example.roomradar.Database.entity.Post;
+import com.example.roomradar.service.PostLikeByUserService;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -49,6 +53,31 @@ public class PostAdapter extends ArrayAdapter<Post> {
 
         TextView pricePost = convertView.findViewById(R.id.price_post);
         pricePost.setText(String.valueOf(myPost.getPrice()) + "VND/Tháng");
+
+        SharedPreferences sharedPreferences = context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        int userId = sharedPreferences.getInt("User",0);
+        convertView.findViewById(R.id.item_post_like).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                boolean isLiked = false;
+                PostLikeByUserService postLikeByUserService =PostLikeByUserService.getInstance(getContext());
+                List<PostLikedByUser> postLikedByUserList = postLikeByUserService.getFavoriteByUser(userId);
+
+                for (PostLikedByUser p : postLikedByUserList ) {
+                    if(p.getPost_id() == myPost.getId()){
+                        isLiked = true;
+                    }
+                }
+
+                if(isLiked==true){
+                    postLikeByUserService.deletePostFavorite(new PostLikedByUser(myPost.getId(),userId));
+                }
+                else {
+                    postLikeByUserService.addToFavorite(new PostLikedByUser(myPost.getId(),userId));
+
+                }
+            }
+        });
 
 
 
