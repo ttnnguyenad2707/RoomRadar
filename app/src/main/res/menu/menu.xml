@@ -16,13 +16,14 @@
         android:drawable="@drawable/menuitem"
         android:title="Add" />
     <item
-        android:id="@+id/navigation_item5"
-        android:icon="@drawable/baseline_search_24"
-        android:drawable="@drawable/menuitem"
-        android:title="Search" />
-    <item
         android:id="@+id/navigation_item4"
-        android:icon="@drawable/baseline_settings_24"
         android:drawable="@drawable/menuitem"
-        android:title="Setting" />
+        android:icon="@drawable/baseline_search_24"
+        android:title="Search"
+         />
+    <item
+        android:id="@+id/navigation_item5"
+        android:drawable="@drawable/menuitem"
+        android:icon="@drawable/baseline_settings_24"
+        android:title="Setting"/>
 </menu>

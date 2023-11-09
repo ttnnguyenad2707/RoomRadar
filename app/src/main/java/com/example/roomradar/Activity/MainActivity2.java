@@ -7,7 +7,7 @@ import android.os.Bundle;
 
 import com.example.roomradar.Fragments.Addpostfragment;
 import com.example.roomradar.Fragments.BlankFragment;
-import com.example.roomradar.Fragments.ChatFragment;
+import com.example.roomradar.Fragments.SettingFragment;
 import com.example.roomradar.Fragments.FavoritePostFrament;
 import com.example.roomradar.Fragments.HomeFragment;
 import com.example.roomradar.R;
@@ -56,14 +56,14 @@ public class MainActivity2 extends AppCompatActivity {
 
             } else if (item.getItemId() == R.id.navigation_item4) {
                 // Replace the fragment with Fragment4
-                ChatFragment fragment4 = new ChatFragment();
+                BlankFragment fragment4 = new BlankFragment();
                 fragmentManager.beginTransaction()
                         .replace(R.id.frameLayout2, fragment4)
                         .commit();
                 return true;
             } else if (item.getItemId() == R.id.navigation_item5) {
                 // Replace the fragment with Fragment4
-                BlankFragment fragment5 = new BlankFragment();
+                SettingFragment fragment5 = new SettingFragment();
                 fragmentManager.beginTransaction()
                         .replace(R.id.frameLayout2, fragment5)
                         .commit();
