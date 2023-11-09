@@ -1,11 +1,9 @@
 package com.example.roomradar.adapter;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.roomradar.R;
@@ -13,39 +11,48 @@ import com.example.roomradar.Database.entity.Message;
 
 import java.util.List;
 
-public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageViewHolder> {
+public class MessageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+
+    private static final int VIEW_TYPE_SENDER = 1;
+    private static final int VIEW_TYPE_RECEIVER = 2;
 
     private List<Message> messages;
-    private Context context;
-    private String currentUserId; // ID của người đang đăng nhập
+    private String currentUserId;
 
-    public MessageAdapter(List<Message> messages, Context context, String currentUserId) {
+    public MessageAdapter(List<Message> messages, String currentUserId) {
         this.messages = messages;
-        this.context = context;
         this.currentUserId = currentUserId;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        Message message = messages.get(position);
+        return (message.getSenderId().equals(currentUserId)) ? VIEW_TYPE_SENDER : VIEW_TYPE_RECEIVER;
     }
 
     @NonNull
     @Override
-    public MessageViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_message, parent, false);
-        return new MessageViewHolder(view);
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+
+        if (viewType == VIEW_TYPE_SENDER) {
+            View view = inflater.inflate(R.layout.item_message_sender, parent, false);
+            return new SenderViewHolder(view);
+        } else {
+            View view = inflater.inflate(R.layout.item_message_receiver, parent, false);
+            return new ReceiverViewHolder(view);
+        }
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MessageViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         Message message = messages.get(position);
 
-        // Hiển thị tin nhắn theo ID của người gửi và người nhận
-        if (message.getSenderId().equals(currentUserId)) {
-            // Tin nhắn gửi đi
-            holder.messageText.setBackgroundResource(R.drawable.bubble_background_sender);
-        } else {
-            // Tin nhắn nhận được
-            holder.messageText.setBackgroundResource(R.drawable.bubble_background_receiver);
+        if (holder instanceof SenderViewHolder) {
+            ((SenderViewHolder) holder).bind(message);
+        } else if (holder instanceof ReceiverViewHolder) {
+            ((ReceiverViewHolder) holder).bind(message);
         }
-
-        holder.messageText.setText(message.getContent());
     }
 
     @Override
@@ -53,12 +60,29 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
         return messages.size();
     }
 
-    public static class MessageViewHolder extends RecyclerView.ViewHolder {
+    public static class SenderViewHolder extends RecyclerView.ViewHolder {
         TextView messageText;
 
-        public MessageViewHolder(@NonNull View itemView) {
+        public SenderViewHolder(@NonNull View itemView) {
             super(itemView);
-            messageText = itemView.findViewById(R.id.messageText);
+            messageText = itemView.findViewById(R.id.messageTextSender);
+        }
+
+        public void bind(Message message) {
+            messageText.setText(message.getContent());
+        }
+    }
+
+    public static class ReceiverViewHolder extends RecyclerView.ViewHolder {
+        TextView messageText;
+
+        public ReceiverViewHolder(@NonNull View itemView) {
+            super(itemView);
+            messageText = itemView.findViewById(R.id.messageTextReceiver);
+        }
+
+        public void bind(Message message) {
+            messageText.setText(message.getContent());
         }
     }
 }

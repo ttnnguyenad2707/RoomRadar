@@ -44,7 +44,7 @@ public class ChatActivity extends AppCompatActivity {
         otherUserId = "1"; // Thay thế bằng cách lấy từ Intent hoặc SharedPreferences
 
         recyclerView = findViewById(R.id.recyclerView);
-        messageAdapter = new MessageAdapter(messages, this, currentUserId);
+        messageAdapter = new MessageAdapter(messages,  currentUserId);
         recyclerView.setAdapter(messageAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
