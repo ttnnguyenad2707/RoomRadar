@@ -14,16 +14,12 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.roomradar.service.UserService;
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import com.example.roomradar.Database.entity.User;
 import com.example.roomradar.R;
 
@@ -46,7 +42,7 @@ public class ProfileUser extends AppCompatActivity {
         TextView email= findViewById(R.id.viewemail);
         TextView phonenumber= findViewById(R.id.viewPhone);
         TextView vipuser= findViewById(R.id.viewVip);
-        ImageView imageView = findViewById(R.id.imageView3);
+        ImageView imageView = findViewById(R.id.item_post_dislike);
         Log.d("users", "onCreate: "+userCheck);
         viewname.setText(userCheck.getFirstname()+userCheck.getLastname());
         email.setText(userCheck.getEmail());
