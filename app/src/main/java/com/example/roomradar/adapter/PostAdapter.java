@@ -56,6 +56,25 @@ public class PostAdapter extends ArrayAdapter<Post> {
 
         SharedPreferences sharedPreferences = context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
         int userId = sharedPreferences.getInt("User",0);
+
+        boolean isLiked = false;
+        PostLikeByUserService postLikeByUserService =PostLikeByUserService.getInstance(getContext());
+        List<PostLikedByUser> postLikedByUserList = postLikeByUserService.getFavoriteByUser(userId);
+
+        for (PostLikedByUser p : postLikedByUserList ) {
+            if(p.getPost_id() == myPost.getId()){
+                isLiked = true;
+            }
+        }
+        ImageView iconLike = convertView.findViewById(R.id.item_post_like);
+        if(isLiked == true){
+            iconLike.setImageResource(R.drawable._12);
+        }
+        else {
+            iconLike.setImageResource(R.drawable.baseline_heart_broken_24);
+        }
+
+
         convertView.findViewById(R.id.item_post_like).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -71,9 +90,12 @@ public class PostAdapter extends ArrayAdapter<Post> {
 
                 if(isLiked==true){
                     postLikeByUserService.deletePostFavorite(new PostLikedByUser(myPost.getId(),userId));
+                    iconLike.setImageResource(R.drawable.baseline_heart_broken_24);
                 }
                 else {
                     postLikeByUserService.addToFavorite(new PostLikedByUser(myPost.getId(),userId));
+                    iconLike.setImageResource(R.drawable._12);
+
 
                 }
             }
