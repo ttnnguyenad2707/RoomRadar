@@ -1,6 +1,7 @@
 package com.example.roomradar.Fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -9,8 +10,10 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.example.roomradar.Activity.DetailsPostActivity;
 import com.example.roomradar.Database.entity.Post;
 import com.example.roomradar.Database.entity.PostLikedByUser;
 import com.example.roomradar.R;
@@ -89,6 +92,14 @@ public class FavoritePostFrament extends Fragment {
         ListView listview = view.findViewById(R.id.listPostLikedFG) ;
         PostAdapter postAdapter = new PostAdapter(getActivity(), R.layout.item_post_layout, posts);
         listview.setAdapter(postAdapter);
+        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(getContext(), DetailsPostActivity.class);
+                intent.putExtra("post",posts.get(position));
+                startActivity(intent);
+            }
+        });
 
         return view;
     }
