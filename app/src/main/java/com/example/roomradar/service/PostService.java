@@ -23,7 +23,12 @@ public class PostService {
     public long addNewPost(Post post){
         return db.postDao().insertPost(post);
     }
-
+    public void updatePost(Post post){
+        db.postDao().updatePost(post);
+    }
+    public void deletePost(Post post){
+        db.postDao().deletePost(post);
+    }
     public List<Post> getAllPost(){
         return db.postDao().getAllPost();
     }

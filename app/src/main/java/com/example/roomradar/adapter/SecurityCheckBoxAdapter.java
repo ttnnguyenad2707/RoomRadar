@@ -36,6 +36,11 @@ public class SecurityCheckBoxAdapter extends ArrayAdapter<Security> {
     public List<Integer> getSecurityId() {
         return securityId;
     }
+
+    public void setSecurityId(List<Integer> securityId) {
+        this.securityId = securityId;
+    }
+
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
@@ -47,7 +52,7 @@ public class SecurityCheckBoxAdapter extends ArrayAdapter<Security> {
         CheckBox checkBox = convertView.findViewById(R.id.checkbox);
         TextView label = convertView.findViewById(R.id.label);
 
-        checkBox.setChecked(false);
+        checkBox.setChecked(securityId.contains(security.getId()));
         label.setText(security.getName());
 
 

@@ -1,10 +1,13 @@
 package com.example.roomradar.Activity;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -13,6 +16,7 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.roomradar.Database.entity.Images;
 import com.example.roomradar.Database.entity.Post;
@@ -24,8 +28,16 @@ import com.example.roomradar.service.ImagesService;
 import com.example.roomradar.service.SecurityService;
 import com.example.roomradar.service.UserService;
 import com.example.roomradar.service.UtilsService;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.squareup.picasso.Picasso;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,7 +45,12 @@ public class DetailsPostActivity extends AppCompatActivity {
     String DB_PATH_SUFFIX = "/databases/";
     SQLiteDatabase database = null;
     String DATABASE_NAME = "roomradar.db";
+    private Geocoder geocoder;
 
+    String address;
+    private int type = GoogleMap.MAP_TYPE_NORMAL;
+    private GoogleMap mMap;
+    private Marker currentMarker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,8 +59,13 @@ public class DetailsPostActivity extends AppCompatActivity {
         Intent intent = getIntent();
         Post post = (Post) intent.getSerializableExtra("post");
 
+        geocoder = new Geocoder(this);
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.maps);
+        mapFragment.getMapAsync(this::onMapReady);
+
         ImageView imageView = findViewById(R.id.post_detail_images);
         Button btnBackToList = findViewById(R.id.btnBackToList);
+        Button btnChatWithOwner = findViewById(R.id.btnChatWithOwner);
         TextView titledetail = findViewById(R.id.title_detailPost);
         TextView descriptiondetail = findViewById(R.id.description_detailPost);
         TextView pricedetail = findViewById(R.id.price_detailPost);
@@ -114,6 +136,54 @@ public class DetailsPostActivity extends AppCompatActivity {
                 finish();
             }
         });
+        btnChatWithOwner.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(DetailsPostActivity.this,ChatActivity.class);
+                intent.putExtra("otherUserId",post.getOwner());
+                startActivity(intent);
+            }
+        });
+    }
+
+    private void searchLocation(String address) {
+        List<Address> addresses = null;
+        LatLng latLng = null;
+        try {
+            addresses = geocoder.getFromLocationName(address, 1);
+            if (addresses != null && addresses.size() > 0) {
+                Address location = addresses.get(0);
+                double latitude = location.getLatitude();
+                double longitude = location.getLongitude();
+                latLng = new LatLng(latitude, longitude);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            // Xử lý lỗi IO và hiển thị thông báo cho người dùng
+            Toast.makeText(this, "Lỗi khi tìm địa chỉ.", Toast.LENGTH_SHORT).show();
+        }
+
+        if (latLng != null) {
+            MarkerOptions markerOptions = new MarkerOptions()
+                    .position(latLng)
+                    .title("Vị trí")
+                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))
+                    .snippet("Latitude: " + latLng.latitude + ", Longitude: " + latLng.longitude);
+
+
+            mMap.addMarker(markerOptions);
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
+            mMap.setMapType(type);
+        } else {
+            // Xử lý trường hợp không tìm thấy địa chỉ
+            Toast.makeText(this, "Không tìm thấy địa chỉ.", Toast.LENGTH_SHORT).show();
+        }
+    }
+    public void onMapReady(@NonNull GoogleMap googleMap) {
+        mMap = googleMap;
+        Intent intent = getIntent();
+        Post post = (Post) intent.getSerializableExtra("post");
+        searchLocation(post.getAddress());
     }
 
 }

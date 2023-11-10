@@ -34,6 +34,11 @@ public class UtilsCheckboxAdapter extends ArrayAdapter<Utils> {
     public List<Integer> getUtilsId() {
         return utilsId;
     }
+
+    public void setUtilsId(List<Integer> utilsId) {
+        this.utilsId = utilsId;
+    }
+
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
@@ -42,7 +47,7 @@ public class UtilsCheckboxAdapter extends ArrayAdapter<Utils> {
         Utils util = utils.get(position);
         CheckBox checkBox = convertView.findViewById(R.id.checkbox);
         TextView label = convertView.findViewById(R.id.label);
-        checkBox.setChecked(false);
+        checkBox.setChecked(utilsId.contains(util.getId()));
         label.setText(util.getName());
 
         checkBox.setOnClickListener(new View.OnClickListener() {

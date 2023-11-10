@@ -31,10 +31,16 @@ public class CategoryRadioAdapter extends ArrayAdapter<Category> {
         this.categories = categories;
     }
 
-    int categoryId;
-    public int getCategoryId() {
+
+    int categoryId = -1;
+    public Integer getCategoryId() {
         return categoryId;
     }
+
+    public void setCategoryId(int categoryId) {
+        this.categoryId = categoryId;
+    }
+
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
@@ -46,7 +52,12 @@ public class CategoryRadioAdapter extends ArrayAdapter<Category> {
         CheckBox checkBox = convertView.findViewById(R.id.checkbox);
         TextView label = convertView.findViewById(R.id.label);
 
-        checkBox.setChecked(false);
+        if(categoryId != -1){
+            if(category.getId() == categoryId)
+                checkBox.setChecked(true);
+        }else{
+            checkBox.setChecked(false);
+        }
         label.setText(category.getName());
 
         checkBox.setOnClickListener(new View.OnClickListener() {

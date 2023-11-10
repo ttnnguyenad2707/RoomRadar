@@ -1,5 +1,6 @@
 plugins {
     id("com.android.application")
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -48,5 +49,12 @@ dependencies {
     implementation ("com.cloudinary:cloudinary-android:2.3.1")
     implementation ("androidx.room:room-runtime:2.5.0")
     annotationProcessor ("androidx.room:room-compiler:2.5.0")
+    implementation ("com.google.android.gms:play-services-maps:17.0.1")
+    implementation ("com.google.android.gms:play-services-location:18.0.0")
+
+    implementation("com.google.firebase:firebase-database")
+    implementation ("com.google.firebase:firebase-analytics")
+    implementation(platform("com.google.firebase:firebase-bom:32.5.0"))
+
 
 }
