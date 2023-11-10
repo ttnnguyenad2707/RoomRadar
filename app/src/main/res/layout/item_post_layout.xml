@@ -26,8 +26,8 @@
         android:paddingTop="10dp">
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:orientation="horizontal">
 
@@ -35,7 +35,7 @@
                 android:id="@+id/title_post"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.7"
+                android:layout_weight="1"
                 android:text="Nhà trọ Thiên Long" />
 
             <ImageView
@@ -43,7 +43,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
-                android:layout_weight="0.2" />
+                android:layout_weight="1" />
         </LinearLayout>
 
         <TextView

@@ -19,6 +19,7 @@ import com.example.roomradar.Database.entity.Post;
 import com.example.roomradar.Activity.DetailsPostActivity;
 import com.example.roomradar.R;
 import com.example.roomradar.adapter.PostAdapter;
+import com.example.roomradar.service.PostService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,8 +34,6 @@ public class BlankFragment extends Fragment {
     List<Post> searchResults;
 
     // Database
-    private static final String DATABASE_NAME = "roomradar.db";
-    private SQLiteDatabase database = null;
 
     public BlankFragment() {
         // Required empty public constructor
@@ -48,7 +47,8 @@ public class BlankFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // Initialize your lists, for example, from your database
-        allPosts = queryAllPostsFromDatabase();
+        PostService postService = PostService.getInstance(getContext());
+        allPosts = postService.getAllPost();
         searchResults = new ArrayList<>();
     }
 
@@ -86,16 +86,11 @@ public class BlankFragment extends Fragment {
         });
 
 // Open the database
-        openDatabase();
 
         return view;
 
     }
 
-    private void openDatabase() {
-        String dbPath = getActivity().getDatabasePath(DATABASE_NAME).getAbsolutePath();
-        database = SQLiteDatabase.openDatabase(dbPath, null, SQLiteDatabase.OPEN_READONLY);
-    }
 
     private void performSearch(String searchTerm) {
         // Clear previous search results
@@ -117,42 +112,5 @@ public class BlankFragment extends Fragment {
         postAdapter.notifyDataSetChanged();
     }
 
-    private List<Post> queryAllPostsFromDatabase() {
-        List<Post> posts = new ArrayList<>();
-        if (database != null) {
-            Cursor cursor = database.rawQuery("SELECT Post.*, User.firstname AS owner, categories.name as categoriesName FROM Post INNER JOIN User ON Post.owner = User.id INNER JOIN categories ON Post.categories = categories.id", null);
-            if (cursor != null) {
-                int titleIndex = cursor.getColumnIndex("title");
-                int descriptionIndex = cursor.getColumnIndex("description");
-                int addressIndex = cursor.getColumnIndex("address");
-                int areaIndex = cursor.getColumnIndex("area");
-                int maxPeopleIndex = cursor.getColumnIndex("maxPeople");
-                int priceIndex = cursor.getColumnIndex("price");
-                int depositIndex = cursor.getColumnIndex("deposit");
-                int ownerIndex = cursor.getColumnIndex("owner");
-                int createdAtIndex = cursor.getColumnIndex("createdAt");
-                int thumbnailIndex = cursor.getColumnIndex("thumbnail");
-                int categoryIndex = cursor.getColumnIndex("categoriesName");
 
-                while (cursor.moveToNext()) {
-                    int id = cursor.getInt(0);
-                    String title = cursor.getString(titleIndex);
-                    String description = cursor.getString(descriptionIndex);
-                    String address = cursor.getString(addressIndex);
-                    float area = cursor.getFloat(areaIndex);
-                    int maxPeople = cursor.getInt(maxPeopleIndex);
-                    float price = cursor.getFloat(priceIndex);
-                    float deposit = cursor.getFloat(depositIndex);
-                    String owner = cursor.getString(ownerIndex);
-                    String createdAt = cursor.getString(createdAtIndex);
-                    String thumbnail = cursor.getString(thumbnailIndex);
-                    String category = cursor.getString(categoryIndex);
-//                    Post post = new Post(title, description, address, area, maxPeople, price, deposit, owner, createdAt, category, thumbnail);
-//                    posts.add(post);
-                }
-                cursor.close();
-            }
-        }
-        return posts;
-    }
 }

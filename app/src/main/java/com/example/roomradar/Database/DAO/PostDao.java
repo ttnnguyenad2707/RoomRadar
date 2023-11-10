@@ -22,4 +22,6 @@ public interface PostDao {
     List<Post> getAllPost();
     @Query("select * from Post where id=:postId ")
     Post getPostById(int postId);
+    @Query("select * from Post where category=:categoryId")
+    List<Post> getPostByCategory(int categoryId);
 }

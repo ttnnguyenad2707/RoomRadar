@@ -43,6 +43,13 @@
             android:backgroundTint="#FEFEFE"
             android:text="Danh sách bài post"
             android:textColor="#040000" />
+        <Button
+            android:id="@+id/profile_logout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#FEFEFE"
+            android:text="Logout"
+            android:textColor="#040000" />
     </LinearLayout>
 
 </FrameLayout>

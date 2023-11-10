@@ -1,6 +1,8 @@
 package com.example.roomradar.Fragments;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -11,6 +13,7 @@ import android.view.ViewGroup;
 
 import com.example.roomradar.Activity.ChatActivity;
 import com.example.roomradar.Activity.ListPostOfUser;
+import com.example.roomradar.Activity.LoginActivity;
 import com.example.roomradar.Activity.ProfileUser;
 import com.example.roomradar.Activity.ResetPassword;
 import com.example.roomradar.Activity.UserListActivity;
@@ -96,6 +99,21 @@ public class SettingFragment extends Fragment {
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), UserListActivity.class);
                 startActivity(intent);
+            }
+        });
+        view.findViewById(R.id.profile_logout).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), LoginActivity.class);
+
+                SharedPreferences preferences = getActivity().getSharedPreferences("your_preference_name", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.clear();
+                editor.apply();
+
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+                getActivity().finish();
             }
         });
          {

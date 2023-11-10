@@ -12,13 +12,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.roomradar.Activity.DetailsPostActivity;
+import com.example.roomradar.Database.entity.Category;
 import com.example.roomradar.R;
+import com.example.roomradar.adapter.CategoryButtonAdapter;
 import com.example.roomradar.adapter.PostAdapter;
 import com.example.roomradar.Database.entity.Post;
+import com.example.roomradar.service.CategoryService;
 import com.example.roomradar.service.PostService;
+
+import org.checkerframework.checker.units.qual.C;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -108,6 +114,12 @@ public class HomeFragment extends Fragment {
                 startActivity(intent);
             }
         });
+
+        CategoryService categoryService = CategoryService.getInstance(getContext());
+        List<Category> categoryList = categoryService.getAllCategory();
+        CategoryButtonAdapter categoryButtonAdapter = new CategoryButtonAdapter(getActivity(),R.layout.item_category_button,categoryList);
+        GridView listCategory = view.findViewById(R.id.listCategory);
+        listCategory.setAdapter(categoryButtonAdapter);
 
 
         return view;

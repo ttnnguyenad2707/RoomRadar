@@ -35,4 +35,8 @@ public class PostService {
     public Post getPostById(int postId){
         return db.postDao().getPostById(postId);
     }
+    public List<Post> getPostByCategory (int categoryId){
+        return db.postDao().getPostByCategory(categoryId);
+
+    }
 }
